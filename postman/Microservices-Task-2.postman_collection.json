@@ -1,0 +1,204 @@
+{
+  "info": {
+    "_postman_id": "1519e792-8160-4d3d-ac3e-884dc3404a1c",
+    "name": "Microservices Task 2",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Storage Ping",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8082/api/storage/ping",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8082",
+          "path": [
+            "api",
+            "storage",
+            "ping"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Storage Greet",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8082/api/storage/greet/Taha",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8082",
+          "path": [
+            "api",
+            "storage",
+            "greet",
+            "Taha"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Client Ping Storage",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8081/api/client/ping-storage",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "api",
+            "client",
+            "ping-storage"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Client Greet",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8081/api/client/greet/Taha",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "api",
+            "client",
+            "greet",
+            "Taha"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Message",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"author\": \" aLiCe \",\r\n  \"text\": \" hello microservices world \"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8081/api/messages",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "api",
+            "messages"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Messages",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8081/api/messages",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "api",
+            "messages"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Storage Get Messages",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8082/api/storage/messages",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8082",
+          "path": [
+            "api",
+            "storage",
+            "messages"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Validation 400",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"author\": \"Bob\",\r\n  \"text\": \" \"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8081/api/messages",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "api",
+            "messages"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
