@@ -6,6 +6,159 @@
   },
   "item": [
     {
+      "name": "Task 3",
+      "item": [
+        {
+          "name": "Task 3 - Normal Storage Call",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8081/api/client/ping-storage",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "api",
+                "client",
+                "ping-storage"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Task 3 - Storage Unavailable",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8081/api/client/ping-storage",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "api",
+                "client",
+                "ping-storage"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Task 3 - Circuit Open",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "for (let attempt = 0; attempt < 3; attempt++) {\r\n    const response = await pm.sendRequest(pm.request.url.toString());\r\n    if (response.code !== 503) {\r\n        throw new Error(\"Stop storage-service before running this scenario\");\r\n    }\r\n}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Open circuit returns 503\", () => pm.response.to.have.status(503));\r\npm.test(\"Circuit-open code\", () => {\r\n    pm.expect(pm.response.json().code).to.eql(\"STORAGE_CIRCUIT_OPEN\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8081/api/client/ping-storage",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "api",
+                "client",
+                "ping-storage"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Task 3 - Recovery",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8081/api/client/ping-storage",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "api",
+                "client",
+                "ping-storage"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Task 3 - Downstream Error Propagation",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8081/api/client/simulate-error/404",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "api",
+                "client",
+                "simulate-error",
+                "404"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Task 3 - Downstream 500 Retry",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8081/api/client/simulate-error/500",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "api",
+                "client",
+                "simulate-error",
+                "500"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
       "name": "Storage Ping",
       "request": {
         "method": "GET",

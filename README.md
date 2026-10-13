@@ -110,6 +110,21 @@ catch {
 
 Expected result: `HTTP STATUS: 400`. Validation takes place before the Feign storage call, so the invalid message is not inserted.
 
+## Task 3: retry, error propagation and circuit breaker
+
+`StorageGateway` protects every client-to-storage call with one shared Resilience4j circuit breaker. Read calls retry connection failures, timeouts and HTTP 5xx up to three total attempts, waiting 400 ms and then 800 ms. Feign retries are disabled. Message creation uses the circuit and error handling without automatic retries: replaying a timed-out POST could insert a duplicate message.
+
+The circuit uses a count-based window of five calls, a minimum of three calls, a 50% failure threshold, a ten-second open period and two half-open trial calls. One incoming request counts as one circuit outcome after retries finish. Downstream HTTP 4xx preserves its status, is never retried and is excluded from circuit metrics. Exhausted transient failures return HTTP 503 with `STORAGE_SERVICE_UNAVAILABLE`; rejected open-circuit calls return HTTP 503 with `STORAGE_CIRCUIT_OPEN`. Errors contain a timestamp, status, error, code and message without a stack trace.
+
+Import `postman/Microservices-Task-2.postman_collection.json` into Postman Desktop and use its **Task 3** folder:
+
+1. Send **Normal Storage Call** (200), **Downstream Error Propagation** (404), and **Downstream 500 Retry** (503 after three attempts). The minimal `/api/client/simulate-error/{status}` route forwards to storage's matching route; only 404 and 500 are supported.
+2. Run `docker compose stop storage-service`, then send **Storage Unavailable** (503 after retries).
+3. Send **Circuit Open**. Its pre-request script sends three real warm-up requests from Postman to reach the threshold; the main request must return `STORAGE_CIRCUIT_OPEN` immediately. Both response assertions should pass. Run this scenario only while storage is stopped.
+4. Run `docker compose start storage-service`, wait for startup and the ten-second open period, then send **Recovery** twice (200 each). Logs should show `OPEN` to `HALF_OPEN` to `CLOSED`.
+
+Use `docker compose logs client-service` to inspect attempt numbers, retry events, state transitions and rejected calls. PostgreSQL and its volume remain running throughout this demonstration.
+
 ## Database inspection
 
 ```powershell

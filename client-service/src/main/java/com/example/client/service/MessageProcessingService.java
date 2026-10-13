@@ -3,7 +3,6 @@ package com.example.client.service;
 import com.example.client.dto.MessageRequest;
 import com.example.client.dto.ProcessedMessage;
 import com.example.client.dto.StoredMessage;
-import com.example.client.feign.StorageClient;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -14,10 +13,10 @@ import java.util.List;
 @Service
 public class MessageProcessingService {
 
-    private final StorageClient storageClient;
+    private final StorageGateway storageClient;
 
     public MessageProcessingService(
-            StorageClient storageClient
+            StorageGateway storageClient
     ) {
         this.storageClient = storageClient;
     }

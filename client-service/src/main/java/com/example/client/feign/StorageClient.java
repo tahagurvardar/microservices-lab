@@ -30,4 +30,7 @@ public interface StorageClient {
 
     @GetMapping("/api/storage/messages")
     List<StoredMessage> getAllMessages();
+
+    @GetMapping("/api/storage/simulate-error/{status}")
+    String simulateError(@PathVariable("status") int status);
 }

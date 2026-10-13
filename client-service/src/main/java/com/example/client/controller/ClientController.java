@@ -1,6 +1,6 @@
 package com.example.client.controller;
 
-import com.example.client.feign.StorageClient;
+import com.example.client.service.StorageGateway;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,9 +12,9 @@ import java.util.Map;
 @RequestMapping("/api/client")
 public class ClientController {
 
-    private final StorageClient storageClient;
+    private final StorageGateway storageClient;
 
-    public ClientController(StorageClient storageClient) {
+    public ClientController(StorageGateway storageClient) {
         this.storageClient = storageClient;
     }
 
@@ -31,5 +31,10 @@ public class ClientController {
     @GetMapping("/greet/{name}")
     public String greet(@PathVariable("name") String name) {
         return storageClient.greet(name);
+    }
+
+    @GetMapping("/simulate-error/{status}")
+    public String simulateError(@PathVariable("status") int status) {
+        return storageClient.simulateError(status);
     }
 }
