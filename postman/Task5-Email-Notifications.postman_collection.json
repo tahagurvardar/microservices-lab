@@ -1,0 +1,75 @@
+{
+  "info": {
+    "name": "Task 5 - RabbitMQ Email Notifications",
+    "description": "POST to Client Service stores a message and queues an email notification. View the email at http://localhost:8025 and RabbitMQ queues at http://localhost:15672.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Task 5 - Create Message and Email Event",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"author\": \"Ada\", \"text\": \"RabbitMQ email event from Postman\"}"
+        },
+        "url": "http://localhost:8081/api/messages"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Message created (201)\", () => pm.response.to.have.status(201));",
+              "pm.test(\"Stored message includes id\", () => pm.expect(pm.response.json().id).to.be.a(\"number\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Task 5 - Verify Stored Messages",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:8081/api/messages"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Messages accessible (200)\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Response is an array\", () => pm.expect(pm.response.json()).to.be.an(\"array\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Task 5 - Storage Ping",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:8082/api/storage/ping"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Storage stays healthy\", () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
