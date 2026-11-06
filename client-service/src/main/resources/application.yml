@@ -11,6 +11,20 @@ spring:
           default:
             connect-timeout: 1000
             read-timeout: 1500
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9094}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      acks: all
+      properties:
+        max.block.ms: 5000
+        request.timeout.ms: 5000
+        delivery.timeout.ms: 10000
+
+app:
+  kafka:
+    topic: client.events
 
 storage:
   service:

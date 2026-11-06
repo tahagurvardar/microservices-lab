@@ -23,6 +23,18 @@ spring:
     publisher-returns: true
     template:
       mandatory: true
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9094}
+    consumer:
+      group-id: ${KAFKA_STORAGE_GROUP:storage-service-client-events}
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+app:
+  kafka:
+    topic: client.events
+    group-id: ${KAFKA_STORAGE_GROUP:storage-service-client-events}
 
 notification:
   recipient: ${NOTIFICATION_RECIPIENT:demo@example.test}

@@ -1,0 +1,92 @@
+{
+  "info": {
+    "name": "Task 6 - Kafka Client Events",
+    "description": "Publish one Kafka event from Client Service. Both Storage Service and Audit Service must log the same eventId in different consumer groups.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Publish client event (202)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8081/api/client/events",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "api",
+            "client",
+            "events"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"clientId\": \"customer-42\", \"action\": \"REGISTERED\"}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Accepted (202)', () => pm.response.to.have.status(202));",
+              "const event = pm.response.json();",
+              "pm.test('Published eventId', () => pm.expect(event.eventId).to.be.a('string').and.not.empty);",
+              "pm.environment.set('lastTask6EventId', event.eventId);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Invalid client event (400)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8081/api/client/events",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "api",
+            "client",
+            "events"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"clientId\": \" \", \"action\": \"REGISTERED\"}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Rejected (400)', () => pm.response.to.have.status(400));"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
