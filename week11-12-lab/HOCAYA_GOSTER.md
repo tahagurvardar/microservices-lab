@@ -9,6 +9,5 @@
 5. `.\scripts\task3-crash.ps1`: raw mode aynı offset tekrar işlenir ve 2 satır oluşur; safe mode `processed_event` PRIMARY KEY ile 1 satır kalır. `Runtime.halt(1)` kasıtlıdır.
 6. `.\scripts\task4-5-payments.ps1`: 10 saniyelik baseline, 2 saniyelik timeout; 3 deneme / 500ms→1000ms exponential backoff; 400'e retry yok; Idempotency-Key ile ödeme sayısı 1.
 7. `.\scripts\task6-circuit.ps1`: 30 çağrı, CLOSED/OPEN/HALF_OPEN/CLOSED; actuator event'leri, OPEN yanıt süresini timeout ile karşılaştır.
-8. Gerçek çıktılar ve ekran görüntülerinden **3–5 sayfalık PDF rapor** oluştur; `Lab_Week11_12_Surname_Name.pdf`.
+8. Tamamlanan **4 sayfalık PDF raporu** göster: `reports/Lab_Week11_12_Taha_Gurvardar_Report.pdf`. Task 1–6 logları `evidence/` klasöründe; Maven testleri Order Service 7/7, Payment Service 3/3 başarılı.
 
-**Önemli:** Bu kod paketi henüz senin bilgisayarında çalıştırılmadı. Öğretmene gerçek başarı sonuçlarını ancak adım adım Docker ve Maven testlerinden sonra göster.
