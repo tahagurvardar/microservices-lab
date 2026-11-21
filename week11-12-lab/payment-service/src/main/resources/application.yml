@@ -1,0 +1,17 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: week12-payment-service
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:15432/lab}
+    username: ${SPRING_DATASOURCE_USERNAME:lab}
+    password: ${SPRING_DATASOURCE_PASSWORD:labpass}
+  sql:
+    init:
+      mode: always
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

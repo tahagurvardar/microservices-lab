@@ -1,0 +1,7 @@
+**/target/
+**/.idea/
+**/*.iml
+**/*.log
+!evidence/README.md
+.env
+.DS_Store

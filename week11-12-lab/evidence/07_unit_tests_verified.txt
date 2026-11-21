@@ -1,0 +1,18 @@
+Week 11-12 Lab - Maven Unit Test Evidence
+21 November 2026; output excerpts from actual PowerShell test sessions.
+
+Order Service - final clean build (`mvn -B clean test`):
+[INFO] Running com.example.order.kafka.CrashArmTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Running com.example.order.kafka.OrderSequenceTrackerTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Running com.example.order.web.LabControllerCrashTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
+
+Payment Service - completed test build (`mvn -B test`):
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
+
+Note: The initial Order Service test run failed one assertion. The tracker was corrected and all 7 tests passed on a subsequent clean build. These are excerpts of real provided logs; no failures are omitted from the historical record.

@@ -1,0 +1,305 @@
+Windows PowerShell 5.1
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+PS C:\Users\tahag> cd D:\dev\microservices-lab\week11-12-lab
+PS D:\dev\microservices-lab\week11-12-lab>
+PS D:\dev\microservices-lab\week11-12-lab> .\scripts\task2-ordering.ps1
+Publishing 10 customers x 3 KEYED events...
+Keyed run: 8d1a4d40-92ac-4c35-9aa8-339022a9cee8
+{
+    "customerSequences":  {
+                              "customer-1":  [
+                                                 1,
+                                                 2,
+                                                 3
+                                             ],
+                              "customer-10":  [
+                                                  1,
+                                                  2,
+                                                  3
+                                              ],
+                              "customer-2":  [
+                                                 1,
+                                                 2,
+                                                 3
+                                             ],
+                              "customer-3":  [
+                                                 1,
+                                                 2,
+                                                 3
+                                             ],
+                              "customer-4":  [
+                                                 1,
+                                                 2,
+                                                 3
+                                             ],
+                              "customer-5":  [
+                                                 1,
+                                                 2,
+                                                 3
+                                             ],
+                              "customer-6":  [
+                                                 1,
+                                                 2,
+                                                 3
+                                             ],
+                              "customer-7":  [
+                                                 1,
+                                                 2,
+                                                 3
+                                             ],
+                              "customer-8":  [
+                                                 1,
+                                                 2,
+                                                 3
+                                             ],
+                              "customer-9":  [
+                                                 1,
+                                                 2,
+                                                 3
+                                             ]
+                          },
+    "outOfOrderCustomers":  0,
+    "runId":  "8d1a4d40-92ac-4c35-9aa8-339022a9cee8",
+    "observedCustomers":  10
+}
+Publishing 10 customers x 3 UNKEYED RoundRobin events...
+Unkeyed run: 4f680f21-e10c-4cba-aef0-5c0f9b3890dc
+{
+    "customerSequences":  {
+                              "customer-1":  [
+                                                 2,
+                                                 3,
+                                                 1
+                                             ],
+                              "customer-10":  [
+                                                  2,
+                                                  3
+                                              ],
+                              "customer-2":  [
+                                                 2,
+                                                 3,
+                                                 1
+                                             ],
+                              "customer-3":  [
+                                                 2,
+                                                 3,
+                                                 1
+                                             ],
+                              "customer-4":  [
+                                                 2,
+                                                 3,
+                                                 1
+                                             ],
+                              "customer-5":  [
+                                                 2,
+                                                 3,
+                                                 1
+                                             ],
+                              "customer-6":  [
+                                                 2,
+                                                 3,
+                                                 1
+                                             ],
+                              "customer-7":  [
+                                                 2,
+                                                 3
+                                             ],
+                              "customer-8":  [
+                                                 2,
+                                                 3
+                                             ],
+                              "customer-9":  [
+                                                 2,
+                                                 3
+                                             ]
+                          },
+    "outOfOrderCustomers":  10,
+    "runId":  "4f680f21-e10c-4cba-aef0-5c0f9b3890dc",
+    "observedCustomers":  10
+}
+Inspect partition/offset/key/seq in logs:
+
+order-service-1  | 2026-11-21T16:24:29.721Z  INFO 1 --- [week11-order-service] [ntainer#0-2-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_CONSUMED mode=keyed runId=8d1a4d40-92ac-4c35-9aa8-339022a9cee8 partition=2 offset=8 key=cust
+omer-9 customer=customer-9 seq=3 action=SHIPPED
+order-service-1  | 2026-11-21T16:24:29.727Z  INFO 1 --- [week11-order-service] [ntainer#0-0-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_CONSUMED mode=keyed runId=8d1a4d40-92ac-4c35-9aa8-339022a9cee8 partition=0 offset=9 key=cust
+omer-10 customer=customer-10 seq=3 action=SHIPPED
+order-service-1  | 2026-11-21T16:24:29.733Z  INFO 1 --- [week11-order-service] [ntainer#0-1-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_CONSUMED mode=keyed runId=8d1a4d40-92ac-4c35-9aa8-339022a9cee8 partition=1 offset=25 key=cus
+tomer-6 customer=customer-6 seq=3 action=SHIPPED
+order-service-1  | 2026-11-21T16:24:29.743Z  INFO 1 --- [week11-order-service] [ntainer#0-1-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_CONSUMED mode=keyed runId=8d1a4d40-92ac-4c35-9aa8-339022a9cee8 partition=1 offset=26 key=cus
+tomer-7 customer=customer-7 seq=1 action=CREATED
+order-service-1  | 2026-11-21T16:24:29.754Z  INFO 1 --- [week11-order-service] [ntainer#0-1-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_CONSUMED mode=keyed runId=8d1a4d40-92ac-4c35-9aa8-339022a9cee8 partition=1 offset=27 key=cus
+tomer-7 customer=customer-7 seq=2 action=PAID
+order-service-1  | 2026-11-21T16:24:29.762Z  INFO 1 --- [week11-order-service] [ntainer#0-1-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_CONSUMED mode=keyed runId=8d1a4d40-92ac-4c35-9aa8-339022a9cee8 partition=1 offset=28 key=cus
+tomer-7 customer=customer-7 seq=3 action=SHIPPED
+order-service-1  | 2026-11-21T16:24:34.166Z  INFO 1 --- [week11-order-service] [ntainer#0-0-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_CONSUMED mode=unkeyed runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc partition=0 offset=10 key=n
+ull customer=customer-1 seq=2 action=PAID
+order-service-1  | 2026-11-21T16:24:34.166Z  WARN 1 --- [week11-order-service] [ntainer#0-0-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_OUT_OF_ORDER runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc customer=customer-1 seq=2 partition=
+0
+order-service-1  | 2026-11-21T16:24:34.171Z  INFO 1 --- [week11-order-service] [ntainer#0-2-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_CONSUMED mode=unkeyed runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc partition=2 offset=9 key=nu
+ll customer=customer-1 seq=3 action=SHIPPED
+order-service-1  | 2026-11-21T16:24:34.172Z  WARN 1 --- [week11-order-service] [ntainer#0-2-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_OUT_OF_ORDER runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc customer=customer-1 seq=3 partition=
+2
+order-service-1  | 2026-11-21T16:24:34.181Z  INFO 1 --- [week11-order-service] [ntainer#0-0-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_CONSUMED mode=unkeyed runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc partition=0 offset=11 key=n
+ull customer=customer-2 seq=2 action=PAID
+order-service-1  | 2026-11-21T16:24:34.181Z  WARN 1 --- [week11-order-service] [ntainer#0-0-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_OUT_OF_ORDER runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc customer=customer-2 seq=2 partition=
+0
+order-service-1  | 2026-11-21T16:24:34.191Z  INFO 1 --- [week11-order-service] [ntainer#0-2-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_CONSUMED mode=unkeyed runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc partition=2 offset=10 key=n
+ull customer=customer-2 seq=3 action=SHIPPED
+order-service-1  | 2026-11-21T16:24:34.191Z  WARN 1 --- [week11-order-service] [ntainer#0-2-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_OUT_OF_ORDER runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc customer=customer-2 seq=3 partition=
+2
+order-service-1  | 2026-11-21T16:24:34.224Z  INFO 1 --- [week11-order-service] [ntainer#0-0-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_CONSUMED mode=unkeyed runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc partition=0 offset=12 key=n
+ull customer=customer-3 seq=2 action=PAID
+order-service-1  | 2026-11-21T16:24:34.224Z  WARN 1 --- [week11-order-service] [ntainer#0-0-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_OUT_OF_ORDER runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc customer=customer-3 seq=2 partition=
+0
+order-service-1  | 2026-11-21T16:24:34.233Z  INFO 1 --- [week11-order-service] [ntainer#0-2-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_CONSUMED mode=unkeyed runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc partition=2 offset=11 key=n
+ull customer=customer-3 seq=3 action=SHIPPED
+order-service-1  | 2026-11-21T16:24:34.234Z  WARN 1 --- [week11-order-service] [ntainer#0-2-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_OUT_OF_ORDER runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc customer=customer-3 seq=3 partition=
+2
+order-service-1  | 2026-11-21T16:24:34.251Z  INFO 1 --- [week11-order-service] [ntainer#0-0-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_CONSUMED mode=unkeyed runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc partition=0 offset=13 key=n
+ull customer=customer-4 seq=2 action=PAID
+order-service-1  | 2026-11-21T16:24:34.252Z  WARN 1 --- [week11-order-service] [ntainer#0-0-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_OUT_OF_ORDER runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc customer=customer-4 seq=2 partition=
+0
+order-service-1  | 2026-11-21T16:24:34.263Z  INFO 1 --- [week11-order-service] [ntainer#0-2-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_CONSUMED mode=unkeyed runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc partition=2 offset=12 key=n
+ull customer=customer-4 seq=3 action=SHIPPED
+order-service-1  | 2026-11-21T16:24:34.263Z  WARN 1 --- [week11-order-service] [ntainer#0-2-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_OUT_OF_ORDER runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc customer=customer-4 seq=3 partition=
+2
+order-service-1  | 2026-11-21T16:24:34.275Z  INFO 1 --- [week11-order-service] [ntainer#0-0-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_CONSUMED mode=unkeyed runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc partition=0 offset=14 key=n
+ull customer=customer-5 seq=2 action=PAID
+order-service-1  | 2026-11-21T16:24:34.276Z  WARN 1 --- [week11-order-service] [ntainer#0-0-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_OUT_OF_ORDER runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc customer=customer-5 seq=2 partition=
+0
+order-service-1  | 2026-11-21T16:24:34.284Z  INFO 1 --- [week11-order-service] [ntainer#0-2-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_CONSUMED mode=unkeyed runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc partition=2 offset=13 key=n
+ull customer=customer-5 seq=3 action=SHIPPED
+order-service-1  | 2026-11-21T16:24:34.284Z  WARN 1 --- [week11-order-service] [ntainer#0-2-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_OUT_OF_ORDER runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc customer=customer-5 seq=3 partition=
+2
+order-service-1  | 2026-11-21T16:24:34.299Z  INFO 1 --- [week11-order-service] [ntainer#0-0-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_CONSUMED mode=unkeyed runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc partition=0 offset=15 key=n
+ull customer=customer-6 seq=2 action=PAID
+order-service-1  | 2026-11-21T16:24:34.300Z  WARN 1 --- [week11-order-service] [ntainer#0-0-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_OUT_OF_ORDER runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc customer=customer-6 seq=2 partition=
+0
+order-service-1  | 2026-11-21T16:24:34.308Z  INFO 1 --- [week11-order-service] [ntainer#0-2-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_CONSUMED mode=unkeyed runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc partition=2 offset=14 key=n
+ull customer=customer-6 seq=3 action=SHIPPED
+order-service-1  | 2026-11-21T16:24:34.308Z  WARN 1 --- [week11-order-service] [ntainer#0-2-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_OUT_OF_ORDER runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc customer=customer-6 seq=3 partition=
+2
+order-service-1  | 2026-11-21T16:24:34.330Z  INFO 1 --- [week11-order-service] [ntainer#0-0-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_CONSUMED mode=unkeyed runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc partition=0 offset=16 key=n
+ull customer=customer-7 seq=2 action=PAID
+order-service-1  | 2026-11-21T16:24:34.330Z  WARN 1 --- [week11-order-service] [ntainer#0-0-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_OUT_OF_ORDER runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc customer=customer-7 seq=2 partition=
+0
+order-service-1  | 2026-11-21T16:24:34.348Z  INFO 1 --- [week11-order-service] [ntainer#0-2-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_CONSUMED mode=unkeyed runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc partition=2 offset=15 key=n
+ull customer=customer-7 seq=3 action=SHIPPED
+order-service-1  | 2026-11-21T16:24:34.349Z  WARN 1 --- [week11-order-service] [ntainer#0-2-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_OUT_OF_ORDER runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc customer=customer-7 seq=3 partition=
+2
+order-service-1  | 2026-11-21T16:24:34.361Z  INFO 1 --- [week11-order-service] [ntainer#0-0-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_CONSUMED mode=unkeyed runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc partition=0 offset=17 key=n
+ull customer=customer-8 seq=2 action=PAID
+order-service-1  | 2026-11-21T16:24:34.361Z  WARN 1 --- [week11-order-service] [ntainer#0-0-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_OUT_OF_ORDER runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc customer=customer-8 seq=2 partition=
+0
+order-service-1  | 2026-11-21T16:24:34.367Z  INFO 1 --- [week11-order-service] [ntainer#0-2-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_CONSUMED mode=unkeyed runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc partition=2 offset=16 key=n
+ull customer=customer-8 seq=3 action=SHIPPED
+order-service-1  | 2026-11-21T16:24:34.367Z  WARN 1 --- [week11-order-service] [ntainer#0-2-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_OUT_OF_ORDER runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc customer=customer-8 seq=3 partition=
+2
+order-service-1  | 2026-11-21T16:24:34.386Z  INFO 1 --- [week11-order-service] [ntainer#0-0-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_CONSUMED mode=unkeyed runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc partition=0 offset=18 key=n
+ull customer=customer-9 seq=2 action=PAID
+order-service-1  | 2026-11-21T16:24:34.386Z  WARN 1 --- [week11-order-service] [ntainer#0-0-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_OUT_OF_ORDER runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc customer=customer-9 seq=2 partition=
+0
+order-service-1  | 2026-11-21T16:24:34.391Z  INFO 1 --- [week11-order-service] [ntainer#0-2-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_CONSUMED mode=unkeyed runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc partition=2 offset=17 key=n
+ull customer=customer-9 seq=3 action=SHIPPED
+order-service-1  | 2026-11-21T16:24:34.391Z  WARN 1 --- [week11-order-service] [ntainer#0-2-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_OUT_OF_ORDER runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc customer=customer-9 seq=3 partition=
+2
+order-service-1  | 2026-11-21T16:24:34.425Z  INFO 1 --- [week11-order-service] [ntainer#0-0-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_CONSUMED mode=unkeyed runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc partition=0 offset=19 key=n
+ull customer=customer-10 seq=2 action=PAID
+order-service-1  | 2026-11-21T16:24:34.425Z  WARN 1 --- [week11-order-service] [ntainer#0-0-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_OUT_OF_ORDER runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc customer=customer-10 seq=2 partition
+=0
+order-service-1  | 2026-11-21T16:24:34.435Z  INFO 1 --- [week11-order-service] [ntainer#0-2-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_CONSUMED mode=unkeyed runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc partition=2 offset=18 key=n
+ull customer=customer-10 seq=3 action=SHIPPED
+order-service-1  | 2026-11-21T16:24:34.435Z  WARN 1 --- [week11-order-service] [ntainer#0-2-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_OUT_OF_ORDER runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc customer=customer-10 seq=3 partition
+=2
+order-service-1  | 2026-11-21T16:24:35.064Z  INFO 1 --- [week11-order-service] [ntainer#0-1-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_CONSUMED mode=unkeyed runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc partition=1 offset=29 key=n
+ull customer=customer-1 seq=1 action=CREATED
+order-service-1  | 2026-11-21T16:24:35.064Z  WARN 1 --- [week11-order-service] [ntainer#0-1-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_OUT_OF_ORDER runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc customer=customer-1 seq=1 partition=
+1
+order-service-1  | 2026-11-21T16:24:35.978Z  INFO 1 --- [week11-order-service] [ntainer#0-1-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_CONSUMED mode=unkeyed runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc partition=1 offset=30 key=n
+ull customer=customer-2 seq=1 action=CREATED
+order-service-1  | 2026-11-21T16:24:35.979Z  WARN 1 --- [week11-order-service] [ntainer#0-1-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_OUT_OF_ORDER runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc customer=customer-2 seq=1 partition=
+1
+order-service-1  | 2026-11-21T16:24:36.897Z  INFO 1 --- [week11-order-service] [ntainer#0-1-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_CONSUMED mode=unkeyed runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc partition=1 offset=31 key=n
+ull customer=customer-3 seq=1 action=CREATED
+order-service-1  | 2026-11-21T16:24:36.898Z  WARN 1 --- [week11-order-service] [ntainer#0-1-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_OUT_OF_ORDER runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc customer=customer-3 seq=1 partition=
+1
+order-service-1  | 2026-11-21T16:24:37.807Z  INFO 1 --- [week11-order-service] [ntainer#0-1-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_CONSUMED mode=unkeyed runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc partition=1 offset=32 key=n
+ull customer=customer-4 seq=1 action=CREATED
+order-service-1  | 2026-11-21T16:24:37.807Z  WARN 1 --- [week11-order-service] [ntainer#0-1-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_OUT_OF_ORDER runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc customer=customer-4 seq=1 partition=
+1
+order-service-1  | 2026-11-21T16:24:38.717Z  INFO 1 --- [week11-order-service] [ntainer#0-1-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_CONSUMED mode=unkeyed runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc partition=1 offset=33 key=n
+ull customer=customer-5 seq=1 action=CREATED
+order-service-1  | 2026-11-21T16:24:38.718Z  WARN 1 --- [week11-order-service] [ntainer#0-1-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_OUT_OF_ORDER runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc customer=customer-5 seq=1 partition=
+1
+order-service-1  | 2026-11-21T16:24:39.626Z  INFO 1 --- [week11-order-service] [ntainer#0-1-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_CONSUMED mode=unkeyed runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc partition=1 offset=34 key=n
+ull customer=customer-6 seq=1 action=CREATED
+order-service-1  | 2026-11-21T16:24:39.626Z  WARN 1 --- [week11-order-service] [ntainer#0-1-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_OUT_OF_ORDER runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc customer=customer-6 seq=1 partition=
+1
+order-service-1  | 2026-11-21T16:24:40.536Z  INFO 1 --- [week11-order-service] [ntainer#0-1-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_CONSUMED mode=unkeyed runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc partition=1 offset=35 key=n
+ull customer=customer-7 seq=1 action=CREATED
+order-service-1  | 2026-11-21T16:24:40.536Z  WARN 1 --- [week11-order-service] [ntainer#0-1-C-1] c.e.order.kafka.OrderK
+afkaListener       : ORDER_OUT_OF_ORDER runId=4f680f21-e10c-4cba-aef0-5c0f9b3890dc customer=customer-7 seq=1 partition=
+1
+
+
+PS D:\dev\microservices-lab\week11-12-lab>

@@ -1,0 +1,14 @@
+﻿Current orders partition 1 end offset: 48
+Sending 9 clean UTF-8 keyed messages (A/B/C x 3)...
+Reading exactly these 9 new records from partition 1, offset 48...
+Partition:1     Offset:48       A       1
+Partition:1     Offset:49       B       1
+Partition:1     Offset:50       C       1
+Partition:1     Offset:51       A       2
+Partition:1     Offset:52       B       2
+Partition:1     Offset:53       C       2
+Partition:1     Offset:54       A       3
+Partition:1     Offset:55       B       3
+Partition:1     Offset:56       C       3
+Processed a total of 9 messages
+Task 1 result: all nine messages consumed; inspect the key and offset values above.

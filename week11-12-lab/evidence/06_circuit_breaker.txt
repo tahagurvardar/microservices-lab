@@ -1,0 +1,391 @@
+Windows PowerShell 5.1
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+PS C:\Users\tahag> cd D:\dev\microservices-lab\week11-12-lab
+PS D:\dev\microservices-lab\week11-12-lab>
+PS D:\dev\microservices-lab\week11-12-lab> .\scripts\task6-circuit.ps1
+Task6 will STOP the lab payment-service temporarily. Type YES to continue: YES
+Stop payment-service to simulate an outage.
+[+] stop 1/1
+ ✔ Container week11-12-lab-payment-service-1 Stopped                                                                1.2s
+30 requests at ~1 per second, record elapsedMs while OPEN.
+request=1 durationMs=4145 result=payment pending (circuit fallback: ResourceAccessException)
+request=2 durationMs=4 result=payment pending (circuit fallback: ResourceAccessException)
+request=3 durationMs=3 result=payment pending (circuit fallback: ResourceAccessException)
+request=4 durationMs=3 result=payment pending (circuit fallback: ResourceAccessException)
+request=5 durationMs=2 result=payment pending (circuit fallback: ResourceAccessException)
+request=6 durationMs=3 result=payment pending (circuit fallback: ResourceAccessException)
+request=7 durationMs=3 result=payment pending (circuit fallback: ResourceAccessException)
+request=8 durationMs=2 result=payment pending (circuit fallback: ResourceAccessException)
+request=9 durationMs=2 result=payment pending (circuit fallback: ResourceAccessException)
+request=10 durationMs=45 result=payment pending (circuit fallback: ResourceAccessException)
+request=11 durationMs=3 result=payment pending (circuit fallback: CallNotPermittedException)
+request=12 durationMs=1 result=payment pending (circuit fallback: CallNotPermittedException)
+request=13 durationMs=1 result=payment pending (circuit fallback: CallNotPermittedException)
+request=14 durationMs=1 result=payment pending (circuit fallback: CallNotPermittedException)
+request=15 durationMs=1 result=payment pending (circuit fallback: CallNotPermittedException)
+request=16 durationMs=1 result=payment pending (circuit fallback: CallNotPermittedException)
+request=17 durationMs=1 result=payment pending (circuit fallback: CallNotPermittedException)
+request=18 durationMs=2 result=payment pending (circuit fallback: CallNotPermittedException)
+request=19 durationMs=1 result=payment pending (circuit fallback: CallNotPermittedException)
+request=20 durationMs=4007 result=payment pending (circuit fallback: ResourceAccessException)
+request=21 durationMs=3 result=payment pending (circuit fallback: ResourceAccessException)
+request=22 durationMs=8 result=payment pending (circuit fallback: ResourceAccessException)
+request=23 durationMs=1 result=payment pending (circuit fallback: CallNotPermittedException)
+request=24 durationMs=1 result=payment pending (circuit fallback: CallNotPermittedException)
+request=25 durationMs=1 result=payment pending (circuit fallback: CallNotPermittedException)
+request=26 durationMs=1 result=payment pending (circuit fallback: CallNotPermittedException)
+request=27 durationMs=1 result=payment pending (circuit fallback: CallNotPermittedException)
+request=28 durationMs=1 result=payment pending (circuit fallback: CallNotPermittedException)
+request=29 durationMs=1 result=payment pending (circuit fallback: CallNotPermittedException)
+request=30 durationMs=1 result=payment pending (circuit fallback: CallNotPermittedException)
+Restart payment-service; wait for HTTP readiness.
+[+] start 2/2
+ ✔ Container week11-12-lab-postgres-1        Healthy                                                                0.5s
+ ✔ Container week11-12-lab-payment-service-1 Started                                                                0.5s
+Send 3+ successes; HALF_OPEN probes should close the circuit.
+
+mode    elapsedMs result
+----    --------- ------
+circuit       315 {"key":"0e5e9d29-a458-4e43-a4af-0d65d298d194","reused":false,"paymentId":"2e656493-a552-4cd6-b91d-...
+circuit        32 {"key":"f3846c2b-dcfd-4b69-8e50-80e891ebb0e5","reused":false,"paymentId":"42d01740-d2b7-4ec7-8a99-...
+circuit        37 {"key":"e955f607-21cd-4590-9f0c-70f7f5bdbb37","reused":false,"paymentId":"286f7efb-d54f-48aa-be1f-...
+circuit        34 {"key":"e594eef3-27e1-48a4-b5bc-75a2e2786871","reused":false,"paymentId":"dcc0f4f3-0754-4b00-8c43-...
+circuit        32 {"key":"0eace8a5-023d-4505-b537-dd801350afb3","reused":false,"paymentId":"47b05a7c-85cf-44fb-b4a1-...
+Circuit breaker state transitions from actuator:
+{
+    "circuitBreakerEvents":  [
+                                 {
+                                     "circuitBreakerName":  "paymentCircuit",
+                                     "type":  "ERROR",
+                                     "creationTime":  "2026-11-21T18:52:30.911742142Z[Etc/UTC]",
+                                     "errorMessage":  "org.springframework.web.client.ResourceAccessException: I/O error on POST request for \"http://payment-service:8081/pay\": payment-service",
+                                     "durationInMs":  4031,
+                                     "stateTransition":  null
+                                 },
+                                 {
+                                     "circuitBreakerName":  "paymentCircuit",
+                                     "type":  "ERROR",
+                                     "creationTime":  "2026-11-21T18:52:32.100271263Z[Etc/UTC]",
+                                     "errorMessage":  "org.springframework.web.client.ResourceAccessException: I/O error on POST request for \"http://payment-service:8081/pay\": payment-service",
+                                     "durationInMs":  2,
+                                     "stateTransition":  null
+                                 },
+                                 {
+                                     "circuitBreakerName":  "paymentCircuit",
+                                     "type":  "ERROR",
+                                     "creationTime":  "2026-11-21T18:52:33.120459327Z[Etc/UTC]",
+                                     "errorMessage":  "org.springframework.web.client.ResourceAccessException: I/O error on POST request for \"http://payment-service:8081/pay\": payment-service",
+                                     "durationInMs":  1,
+                                     "stateTransition":  null
+                                 },
+                                 {
+                                     "circuitBreakerName":  "paymentCircuit",
+                                     "type":  "ERROR",
+                                     "creationTime":  "2026-11-21T18:52:34.147443589Z[Etc/UTC]",
+                                     "errorMessage":  "org.springframework.web.client.ResourceAccessException: I/O error on POST request for \"http://payment-service:8081/pay\": payment-service",
+                                     "durationInMs":  1,
+                                     "stateTransition":  null
+                                 },
+                                 {
+                                     "circuitBreakerName":  "paymentCircuit",
+                                     "type":  "ERROR",
+                                     "creationTime":  "2026-11-21T18:52:35.162729049Z[Etc/UTC]",
+                                     "errorMessage":  "org.springframework.web.client.ResourceAccessException: I/O error on POST request for \"http://payment-service:8081/pay\": payment-service",
+                                     "durationInMs":  1,
+                                     "stateTransition":  null
+                                 },
+                                 {
+                                     "circuitBreakerName":  "paymentCircuit",
+                                     "type":  "ERROR",
+                                     "creationTime":  "2026-11-21T18:52:36.177692123Z[Etc/UTC]",
+                                     "errorMessage":  "org.springframework.web.client.ResourceAccessException: I/O error on POST request for \"http://payment-service:8081/pay\": payment-service",
+                                     "durationInMs":  1,
+                                     "stateTransition":  null
+                                 },
+                                 {
+                                     "circuitBreakerName":  "paymentCircuit",
+                                     "type":  "ERROR",
+                                     "creationTime":  "2026-11-21T18:52:37.208533545Z[Etc/UTC]",
+                                     "errorMessage":  "org.springframework.web.client.ResourceAccessException: I/O error on POST request for \"http://payment-service:8081/pay\": payment-service",
+                                     "durationInMs":  2,
+                                     "stateTransition":  null
+                                 },
+                                 {
+                                     "circuitBreakerName":  "paymentCircuit",
+                                     "type":  "ERROR",
+                                     "creationTime":  "2026-11-21T18:52:38.228947776Z[Etc/UTC]",
+                                     "errorMessage":  "org.springframework.web.client.ResourceAccessException: I/O error on POST request for \"http://payment-service:8081/pay\": payment-service",
+                                     "durationInMs":  1,
+                                     "stateTransition":  null
+                                 },
+                                 {
+                                     "circuitBreakerName":  "paymentCircuit",
+                                     "type":  "ERROR",
+                                     "creationTime":  "2026-11-21T18:52:39.249650525Z[Etc/UTC]",
+                                     "errorMessage":  "org.springframework.web.client.ResourceAccessException: I/O error on POST request for \"http://payment-service:8081/pay\": payment-service",
+                                     "durationInMs":  1,
+                                     "stateTransition":  null
+                                 },
+                                 {
+                                     "circuitBreakerName":  "paymentCircuit",
+                                     "type":  "ERROR",
+                                     "creationTime":  "2026-11-21T18:52:40.269457054Z[Etc/UTC]",
+                                     "errorMessage":  "org.springframework.web.client.ResourceAccessException: I/O error on POST request for \"http://payment-service:8081/pay\": payment-service",
+                                     "durationInMs":  1,
+                                     "stateTransition":  null
+                                 },
+                                 {
+                                     "circuitBreakerName":  "paymentCircuit",
+                                     "type":  "FAILURE_RATE_EXCEEDED",
+                                     "creationTime":  "2026-11-21T18:52:40.273448005Z[Etc/UTC]",
+                                     "errorMessage":  null,
+                                     "durationInMs":  null,
+                                     "stateTransition":  null
+                                 },
+                                 {
+                                     "circuitBreakerName":  "paymentCircuit",
+                                     "type":  "STATE_TRANSITION",
+                                     "creationTime":  "2026-11-21T18:52:40.311871444Z[Etc/UTC]",
+                                     "errorMessage":  null,
+                                     "durationInMs":  null,
+                                     "stateTransition":  "CLOSED_TO_OPEN"
+                                 },
+                                 {
+                                     "circuitBreakerName":  "paymentCircuit",
+                                     "type":  "NOT_PERMITTED",
+                                     "creationTime":  "2026-11-21T18:52:41.327416868Z[Etc/UTC]",
+                                     "errorMessage":  null,
+                                     "durationInMs":  null,
+                                     "stateTransition":  null
+                                 },
+                                 {
+                                     "circuitBreakerName":  "paymentCircuit",
+                                     "type":  "NOT_PERMITTED",
+                                     "creationTime":  "2026-11-21T18:52:42.345296842Z[Etc/UTC]",
+                                     "errorMessage":  null,
+                                     "durationInMs":  null,
+                                     "stateTransition":  null
+                                 },
+                                 {
+                                     "circuitBreakerName":  "paymentCircuit",
+                                     "type":  "NOT_PERMITTED",
+                                     "creationTime":  "2026-11-21T18:52:43.365695420Z[Etc/UTC]",
+                                     "errorMessage":  null,
+                                     "durationInMs":  null,
+                                     "stateTransition":  null
+                                 },
+                                 {
+                                     "circuitBreakerName":  "paymentCircuit",
+                                     "type":  "NOT_PERMITTED",
+                                     "creationTime":  "2026-11-21T18:52:44.409214536Z[Etc/UTC]",
+                                     "errorMessage":  null,
+                                     "durationInMs":  null,
+                                     "stateTransition":  null
+                                 },
+                                 {
+                                     "circuitBreakerName":  "paymentCircuit",
+                                     "type":  "NOT_PERMITTED",
+                                     "creationTime":  "2026-11-21T18:52:45.431431785Z[Etc/UTC]",
+                                     "errorMessage":  null,
+                                     "durationInMs":  null,
+                                     "stateTransition":  null
+                                 },
+                                 {
+                                     "circuitBreakerName":  "paymentCircuit",
+                                     "type":  "NOT_PERMITTED",
+                                     "creationTime":  "2026-11-21T18:52:46.446085060Z[Etc/UTC]",
+                                     "errorMessage":  null,
+                                     "durationInMs":  null,
+                                     "stateTransition":  null
+                                 },
+                                 {
+                                     "circuitBreakerName":  "paymentCircuit",
+                                     "type":  "NOT_PERMITTED",
+                                     "creationTime":  "2026-11-21T18:52:47.462734720Z[Etc/UTC]",
+                                     "errorMessage":  null,
+                                     "durationInMs":  null,
+                                     "stateTransition":  null
+                                 },
+                                 {
+                                     "circuitBreakerName":  "paymentCircuit",
+                                     "type":  "NOT_PERMITTED",
+                                     "creationTime":  "2026-11-21T18:52:48.486384214Z[Etc/UTC]",
+                                     "errorMessage":  null,
+                                     "durationInMs":  null,
+                                     "stateTransition":  null
+                                 },
+                                 {
+                                     "circuitBreakerName":  "paymentCircuit",
+                                     "type":  "NOT_PERMITTED",
+                                     "creationTime":  "2026-11-21T18:52:49.506351968Z[Etc/UTC]",
+                                     "errorMessage":  null,
+                                     "durationInMs":  null,
+                                     "stateTransition":  null
+                                 },
+                                 {
+                                     "circuitBreakerName":  "paymentCircuit",
+                                     "type":  "STATE_TRANSITION",
+                                     "creationTime":  "2026-11-21T18:52:50.302594317Z[Etc/UTC]",
+                                     "errorMessage":  null,
+                                     "durationInMs":  null,
+                                     "stateTransition":  "OPEN_TO_HALF_OPEN"
+                                 },
+                                 {
+                                     "circuitBreakerName":  "paymentCircuit",
+                                     "type":  "ERROR",
+                                     "creationTime":  "2026-11-21T18:52:54.540435372Z[Etc/UTC]",
+                                     "errorMessage":  "org.springframework.web.client.ResourceAccessException: I/O error on POST request for \"http://payment-service:8081/pay\": payment-service",
+                                     "durationInMs":  4004,
+                                     "stateTransition":  null
+                                 },
+                                 {
+                                     "circuitBreakerName":  "paymentCircuit",
+                                     "type":  "ERROR",
+                                     "creationTime":  "2026-11-21T18:52:55.575733411Z[Etc/UTC]",
+                                     "errorMessage":  "org.springframework.web.client.ResourceAccessException: I/O error on POST request for \"http://payment-service:8081/pay\": payment-service",
+                                     "durationInMs":  2,
+                                     "stateTransition":  null
+                                 },
+                                 {
+                                     "circuitBreakerName":  "paymentCircuit",
+                                     "type":  "ERROR",
+                                     "creationTime":  "2026-11-21T18:52:56.617668974Z[Etc/UTC]",
+                                     "errorMessage":  "org.springframework.web.client.ResourceAccessException: I/O error on POST request for \"http://payment-service:8081/pay\": payment-service",
+                                     "durationInMs":  6,
+                                     "stateTransition":  null
+                                 },
+                                 {
+                                     "circuitBreakerName":  "paymentCircuit",
+                                     "type":  "STATE_TRANSITION",
+                                     "creationTime":  "2026-11-21T18:52:56.617966881Z[Etc/UTC]",
+                                     "errorMessage":  null,
+                                     "durationInMs":  null,
+                                     "stateTransition":  "HALF_OPEN_TO_OPEN"
+                                 },
+                                 {
+                                     "circuitBreakerName":  "paymentCircuit",
+                                     "type":  "NOT_PERMITTED",
+                                     "creationTime":  "2026-11-21T18:52:57.641804064Z[Etc/UTC]",
+                                     "errorMessage":  null,
+                                     "durationInMs":  null,
+                                     "stateTransition":  null
+                                 },
+                                 {
+                                     "circuitBreakerName":  "paymentCircuit",
+                                     "type":  "NOT_PERMITTED",
+                                     "creationTime":  "2026-11-21T18:52:58.665055116Z[Etc/UTC]",
+                                     "errorMessage":  null,
+                                     "durationInMs":  null,
+                                     "stateTransition":  null
+                                 },
+                                 {
+                                     "circuitBreakerName":  "paymentCircuit",
+                                     "type":  "NOT_PERMITTED",
+                                     "creationTime":  "2026-11-21T18:52:59.682771490Z[Etc/UTC]",
+                                     "errorMessage":  null,
+                                     "durationInMs":  null,
+                                     "stateTransition":  null
+                                 },
+                                 {
+                                     "circuitBreakerName":  "paymentCircuit",
+                                     "type":  "NOT_PERMITTED",
+                                     "creationTime":  "2026-11-21T18:53:00.705869437Z[Etc/UTC]",
+                                     "errorMessage":  null,
+                                     "durationInMs":  null,
+                                     "stateTransition":  null
+                                 },
+                                 {
+                                     "circuitBreakerName":  "paymentCircuit",
+                                     "type":  "NOT_PERMITTED",
+                                     "creationTime":  "2026-11-21T18:53:01.732143078Z[Etc/UTC]",
+                                     "errorMessage":  null,
+                                     "durationInMs":  null,
+                                     "stateTransition":  null
+                                 },
+                                 {
+                                     "circuitBreakerName":  "paymentCircuit",
+                                     "type":  "NOT_PERMITTED",
+                                     "creationTime":  "2026-11-21T18:53:02.754623034Z[Etc/UTC]",
+                                     "errorMessage":  null,
+                                     "durationInMs":  null,
+                                     "stateTransition":  null
+                                 },
+                                 {
+                                     "circuitBreakerName":  "paymentCircuit",
+                                     "type":  "NOT_PERMITTED",
+                                     "creationTime":  "2026-11-21T18:53:03.778946519Z[Etc/UTC]",
+                                     "errorMessage":  null,
+                                     "durationInMs":  null,
+                                     "stateTransition":  null
+                                 },
+                                 {
+                                     "circuitBreakerName":  "paymentCircuit",
+                                     "type":  "NOT_PERMITTED",
+                                     "creationTime":  "2026-11-21T18:53:04.806149236Z[Etc/UTC]",
+                                     "errorMessage":  null,
+                                     "durationInMs":  null,
+                                     "stateTransition":  null
+                                 },
+                                 {
+                                     "circuitBreakerName":  "paymentCircuit",
+                                     "type":  "STATE_TRANSITION",
+                                     "creationTime":  "2026-11-21T18:53:06.618397453Z[Etc/UTC]",
+                                     "errorMessage":  null,
+                                     "durationInMs":  null,
+                                     "stateTransition":  "OPEN_TO_HALF_OPEN"
+                                 },
+                                 {
+                                     "circuitBreakerName":  "paymentCircuit",
+                                     "type":  "SUCCESS",
+                                     "creationTime":  "2026-11-21T18:53:19.578074572Z[Etc/UTC]",
+                                     "errorMessage":  null,
+                                     "durationInMs":  313,
+                                     "stateTransition":  null
+                                 },
+                                 {
+                                     "circuitBreakerName":  "paymentCircuit",
+                                     "type":  "SUCCESS",
+                                     "creationTime":  "2026-11-21T18:53:20.637173160Z[Etc/UTC]",
+                                     "errorMessage":  null,
+                                     "durationInMs":  31,
+                                     "stateTransition":  null
+                                 },
+                                 {
+                                     "circuitBreakerName":  "paymentCircuit",
+                                     "type":  "SUCCESS",
+                                     "creationTime":  "2026-11-21T18:53:21.701212687Z[Etc/UTC]",
+                                     "errorMessage":  null,
+                                     "durationInMs":  34,
+                                     "stateTransition":  null
+                                 },
+                                 {
+                                     "circuitBreakerName":  "paymentCircuit",
+                                     "type":  "STATE_TRANSITION",
+                                     "creationTime":  "2026-11-21T18:53:21.702639833Z[Etc/UTC]",
+                                     "errorMessage":  null,
+                                     "durationInMs":  null,
+                                     "stateTransition":  "HALF_OPEN_TO_CLOSED"
+                                 },
+                                 {
+                                     "circuitBreakerName":  "paymentCircuit",
+                                     "type":  "SUCCESS",
+                                     "creationTime":  "2026-11-21T18:53:22.757103645Z[Etc/UTC]",
+                                     "errorMessage":  null,
+                                     "durationInMs":  33,
+                                     "stateTransition":  null
+                                 },
+                                 {
+                                     "circuitBreakerName":  "paymentCircuit",
+                                     "type":  "SUCCESS",
+                                     "creationTime":  "2026-11-21T18:53:23.810864170Z[Etc/UTC]",
+                                     "errorMessage":  null,
+                                     "durationInMs":  32,
+                                     "stateTransition":  null
+                                 }
+                             ]
+}
+Inspect for CLOSED_TO_OPEN, OPEN_TO_HALF_OPEN, HALF_OPEN_TO_CLOSED.
+
+
+PS D:\dev\microservices-lab\week11-12-lab>

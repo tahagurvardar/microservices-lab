@@ -1,0 +1,18 @@
+CREATE TABLE IF NOT EXISTS lab_event_log (
+  id BIGSERIAL PRIMARY KEY,
+  event_id VARCHAR(80) NOT NULL,
+  mode VARCHAR(20) NOT NULL,
+  customer_id VARCHAR(80) NOT NULL,
+  seq INTEGER NOT NULL,
+  kafka_partition INTEGER NOT NULL,
+  kafka_offset BIGINT NOT NULL,
+  logged_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+CREATE TABLE IF NOT EXISTS processed_event (
+  event_id VARCHAR(80) PRIMARY KEY,
+  processed_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+CREATE TABLE IF NOT EXISTS crash_marker (
+  marker VARCHAR(120) PRIMARY KEY,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);

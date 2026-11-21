@@ -1,0 +1,403 @@
+Windows PowerShell 5.1
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+PS C:\Users\tahag> cd D:\dev\microservices-lab\week11-12-lab
+PS D:\dev\microservices-lab\week11-12-lab>
+PS D:\dev\microservices-lab\week11-12-lab> .\scripts\task4-5-payments.ps1
+Task4 baseline (10-second delay, no HTTP timeout):
+
+
+elapsedMs : 10168
+orderId   : 2914fbf7-a086-4447-bef3-9b867eaf1523
+result    : {"paymentId":"1774fae0-fcba-4bf6-be32-d190afc044c6","reused":false,"key":"2914fbf7-a086-4447-bef3-9b867eaf1
+            523","status":"COMPLETED"}
+mode      : baseline
+
+
+
+Task4 bounded timeout (connect=1s/read=2s), fallback payment pending:
+
+
+elapsedMs : 2007
+orderId   : c52dc5ec-827b-4c06-a3be-9851461eca1b
+result    : payment pending (ResourceAccessException)
+mode      : timeout
+
+
+
+Task5: 20 requests, each has a distinct order ID and 50% simulated 503 rate:
+
+orderId                              elapsedMs result
+-------                              --------- ------
+578bb68a-a816-44a3-b0b6-db7ef4c494db       106 {"paymentId":"9728b195-d67f-4f4e-821b-85b5c760ab03","reused":false,"k...
+4f50b91f-b439-4113-a6c7-cd4205888caa        30 {"paymentId":"35ecbe43-affe-452a-8e85-b25892286482","reused":false,"k...
+965c87fb-ec67-4406-93eb-838f6c9f6b2f       614 {"paymentId":"c7eb3605-4a10-4dd5-bf94-e4700ff5ad88","reused":false,"k...
+f5e40b55-ee08-4def-8a28-c3c4c15ed0a7      1567 {"paymentId":"c0cf13a2-ef11-4c60-be96-57b64bdc00da","reused":false,"k...
+68499998-8877-4797-8153-8ce4413c079e      1548 payment pending (ServiceUnavailable)
+b23922c2-923e-4832-91ec-4dd9204b3ab2       553 {"paymentId":"2557a592-2aec-4906-ab75-1ab56626256c","reused":false,"k...
+d36ccf3d-1867-41db-974e-1e48cc1d9c64      1576 payment pending (ServiceUnavailable)
+5162d6e8-f4b3-4281-b5a3-60571fed5609        46 {"paymentId":"2ef47c0e-34e5-491e-b9b1-85075f26fd7a","reused":false,"k...
+690abde3-7ef4-489c-8263-567e092a487d       536 {"paymentId":"f1e1d8ac-dcdd-444b-9c0c-2e70a41e1565","reused":false,"k...
+f942fec4-82db-401f-8be7-15523722699f        25 {"paymentId":"5441b8bc-706e-4392-85c3-e29abedb559b","reused":false,"k...
+24895b6f-eac2-4816-9179-6fba3d4e56d4        24 {"paymentId":"faea2de9-1340-43f3-8756-4ad7821fdfb6","reused":false,"k...
+99ee2fcf-cd71-4f79-bd61-cc9c7579ddf2        23 {"paymentId":"c3df5118-00c3-4b06-bd95-2a2b41e81b0a","reused":false,"k...
+ef933e60-a5f4-4d52-8184-3a2efb37c981      1546 payment pending (ServiceUnavailable)
+1d88e9e1-5db6-4fa6-bb98-f589b3000c25       542 {"paymentId":"8128d25d-a125-45c6-a4a2-690dd3454c41","reused":false,"k...
+0fff8e03-8820-4150-9ab1-e4f416275464       544 {"paymentId":"3aaaf23d-1d5e-4118-b96f-4efdae1c73e4","reused":false,"k...
+09e7d17f-cdcc-4e36-a9a7-5b0e6cd7db9e       539 {"paymentId":"6b0ec101-7f33-4d2d-ac14-c3e42265937f","reused":false,"k...
+25bc580b-19cd-4dbf-a994-4d50a0ae72ea       547 {"paymentId":"e86a2dd6-60ca-46f9-8167-3ae466238bbf","reused":false,"k...
+75abbfa5-5f8a-402c-853b-47fe430d7021        28 {"paymentId":"23c80bb0-69fc-46bf-ae68-4a9e9483cbf3","reused":false,"k...
+c5cc9d59-7e64-4828-b704-34243289c546      1559 {"paymentId":"03677ae7-bb03-4105-895a-7fb786ab07a0","reused":false,"k...
+eaa38b9e-3563-4baa-9a11-ef2970c06bf5        27 {"paymentId":"13a7c969-a055-4047-9cd2-8b9263f5059f","reused":false,"k...
+Task5: Bad Request 400 must be ignored by retry:
+
+
+
+
+elapsedMs : 17
+orderId   : f8438a5d-148e-48a4-85cd-2c71d49c46bc
+result    : payment pending (BadRequestPaymentException)
+mode      : retry
+
+
+
+Check PAYMENT_ATTEMPT for orderId=f8438a5d-148e-48a4-85cd-2c71d49c46bc; should be exactly one attempt.
+Task5: 3000 ms processing with 2000 ms timeout, repeated same key:
+
+
+elapsedMs : 2537
+orderId   : 9f1964d7-e90a-4f81-87db-fcf87d225238
+result    : {"paymentId":"5f9ad58a-3b8e-4097-a9fc-4539913961dc","reused":true,"key":"9f1964d7-e90a-4f81-87db-fcf87d2252
+            38","status":"PROCESSING"}
+mode      : retry
+
+
+
+
+
+elapsedMs : 17
+orderId   : 9f1964d7-e90a-4f81-87db-fcf87d225238
+result    : {"paymentId":"5f9ad58a-3b8e-4097-a9fc-4539913961dc","reused":true,"key":"9f1964d7-e90a-4f81-87db-fcf87d2252
+            38","status":"COMPLETED"}
+mode      : retry
+
+
+
+
+
+payments : 1
+orderId  : 9f1964d7-e90a-4f81-87db-fcf87d225238
+
+
+
+Expected payment row count=1 for orderId=9f1964d7-e90a-4f81-87db-fcf87d225238
+
+order-service-1  | 2026-11-21T18:39:25.114Z  INFO 1 --- [week11-order-service] [nio-8080-exec-1] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:39:25.114918902Z mode=baseline orderId=1f5a8a45-2178-4595-952b-9a
+57ef0cb012 attempt=1 delayMs=10000 failRate=0
+order-service-1  | 2026-11-21T18:39:29.960Z  INFO 1 --- [week11-order-service] [nio-8080-exec-2] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:39:29.960420520Z mode=baseline orderId=50ac6f9a-eb62-47d2-8974-2b
+eb2283efea attempt=1 delayMs=10000 failRate=0
+order-service-1  | 2026-11-21T18:39:41.902Z  INFO 1 --- [week11-order-service] [nio-8080-exec-3] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:39:41.902781395Z mode=timeout orderId=9d0da526-d54e-45ec-a66a-f34
+ee83ace0a attempt=1 delayMs=10000 failRate=0
+order-service-1  | 2026-11-21T18:43:09.334Z  INFO 1 --- [week11-order-service] [nio-8080-exec-5] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:43:09.333669609Z mode=baseline orderId=2914fbf7-a086-4447-bef3-9b
+867eaf1523 attempt=1 delayMs=10000 failRate=0
+order-service-1  | 2026-11-21T18:43:19.598Z  INFO 1 --- [week11-order-service] [nio-8080-exec-6] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:43:19.598468080Z mode=timeout orderId=c52dc5ec-827b-4c06-a3be-985
+1461eca1b attempt=1 delayMs=10000 failRate=0
+order-service-1  | 2026-11-21T18:43:21.764Z  INFO 1 --- [week11-order-service] [nio-8080-exec-7] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:43:21.764487228Z mode=retry orderId=578bb68a-a816-44a3-b0b6-db7ef
+4c494db attempt=1 delayMs=0 failRate=50
+order-service-1  | 2026-11-21T18:43:21.811Z  INFO 1 --- [week11-order-service] [nio-8080-exec-9] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:43:21.811668480Z mode=retry orderId=4f50b91f-b439-4113-a6c7-cd420
+5888caa attempt=1 delayMs=0 failRate=50
+order-service-1  | 2026-11-21T18:43:21.851Z  INFO 1 --- [week11-order-service] [nio-8080-exec-8] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:43:21.851664215Z mode=retry orderId=965c87fb-ec67-4406-93eb-838f6
+c9f6b2f attempt=1 delayMs=0 failRate=50
+order-service-1  | 2026-11-21T18:43:21.904Z  WARN 1 --- [week11-order-service] [nio-8080-exec-8] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_HTTP_ERROR at=2026-11-21T18:43:21.904289282Z mode=retry orderId=965c87fb-ec67-4406-93eb-83
+8f6c9f6b2f attempt=1 status=503
+order-service-1  | 2026-11-21T18:43:22.430Z  INFO 1 --- [week11-order-service] [nio-8080-exec-8] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:43:22.430862892Z mode=retry orderId=965c87fb-ec67-4406-93eb-838f6
+c9f6b2f attempt=2 delayMs=0 failRate=50
+order-service-1  | 2026-11-21T18:43:22.484Z  INFO 1 --- [week11-order-service] [io-8080-exec-10] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:43:22.484485168Z mode=retry orderId=f5e40b55-ee08-4def-8a28-c3c4c
+15ed0a7 attempt=1 delayMs=0 failRate=50
+order-service-1  | 2026-11-21T18:43:22.499Z  WARN 1 --- [week11-order-service] [io-8080-exec-10] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_HTTP_ERROR at=2026-11-21T18:43:22.499325132Z mode=retry orderId=f5e40b55-ee08-4def-8a28-c3
+c4c15ed0a7 attempt=1 status=503
+order-service-1  | 2026-11-21T18:43:23.000Z  INFO 1 --- [week11-order-service] [io-8080-exec-10] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:43:23.000731841Z mode=retry orderId=f5e40b55-ee08-4def-8a28-c3c4c
+15ed0a7 attempt=2 delayMs=0 failRate=50
+order-service-1  | 2026-11-21T18:43:23.015Z  WARN 1 --- [week11-order-service] [io-8080-exec-10] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_HTTP_ERROR at=2026-11-21T18:43:23.015640950Z mode=retry orderId=f5e40b55-ee08-4def-8a28-c3
+c4c15ed0a7 attempt=2 status=503
+order-service-1  | 2026-11-21T18:43:24.020Z  INFO 1 --- [week11-order-service] [io-8080-exec-10] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:43:24.020737712Z mode=retry orderId=f5e40b55-ee08-4def-8a28-c3c4c
+15ed0a7 attempt=3 delayMs=0 failRate=50
+order-service-1  | 2026-11-21T18:43:24.063Z  INFO 1 --- [week11-order-service] [nio-8080-exec-1] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:43:24.063863929Z mode=retry orderId=68499998-8877-4797-8153-8ce44
+13c079e attempt=1 delayMs=0 failRate=50
+order-service-1  | 2026-11-21T18:43:24.079Z  WARN 1 --- [week11-order-service] [nio-8080-exec-1] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_HTTP_ERROR at=2026-11-21T18:43:24.079176241Z mode=retry orderId=68499998-8877-4797-8153-8c
+e4413c079e attempt=1 status=503
+order-service-1  | 2026-11-21T18:43:24.580Z  INFO 1 --- [week11-order-service] [nio-8080-exec-1] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:43:24.580577418Z mode=retry orderId=68499998-8877-4797-8153-8ce44
+13c079e attempt=2 delayMs=0 failRate=50
+order-service-1  | 2026-11-21T18:43:24.594Z  WARN 1 --- [week11-order-service] [nio-8080-exec-1] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_HTTP_ERROR at=2026-11-21T18:43:24.594015067Z mode=retry orderId=68499998-8877-4797-8153-8c
+e4413c079e attempt=2 status=503
+order-service-1  | 2026-11-21T18:43:25.595Z  INFO 1 --- [week11-order-service] [nio-8080-exec-1] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:43:25.594988223Z mode=retry orderId=68499998-8877-4797-8153-8ce44
+13c079e attempt=3 delayMs=0 failRate=50
+order-service-1  | 2026-11-21T18:43:25.609Z  WARN 1 --- [week11-order-service] [nio-8080-exec-1] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_HTTP_ERROR at=2026-11-21T18:43:25.608960206Z mode=retry orderId=68499998-8877-4797-8153-8c
+e4413c079e attempt=3 status=503
+order-service-1  | 2026-11-21T18:43:25.627Z  INFO 1 --- [week11-order-service] [nio-8080-exec-2] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:43:25.627492470Z mode=retry orderId=b23922c2-923e-4832-91ec-4dd92
+04b3ab2 attempt=1 delayMs=0 failRate=50
+order-service-1  | 2026-11-21T18:43:25.643Z  WARN 1 --- [week11-order-service] [nio-8080-exec-2] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_HTTP_ERROR at=2026-11-21T18:43:25.643221604Z mode=retry orderId=b23922c2-923e-4832-91ec-4d
+d9204b3ab2 attempt=1 status=503
+order-service-1  | 2026-11-21T18:43:26.144Z  INFO 1 --- [week11-order-service] [nio-8080-exec-2] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:43:26.144699978Z mode=retry orderId=b23922c2-923e-4832-91ec-4dd92
+04b3ab2 attempt=2 delayMs=0 failRate=50
+order-service-1  | 2026-11-21T18:43:26.195Z  INFO 1 --- [week11-order-service] [nio-8080-exec-3] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:43:26.194554467Z mode=retry orderId=d36ccf3d-1867-41db-974e-1e48c
+c1d9c64 attempt=1 delayMs=0 failRate=50
+order-service-1  | 2026-11-21T18:43:26.211Z  WARN 1 --- [week11-order-service] [nio-8080-exec-3] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_HTTP_ERROR at=2026-11-21T18:43:26.211451134Z mode=retry orderId=d36ccf3d-1867-41db-974e-1e
+48cc1d9c64 attempt=1 status=503
+order-service-1  | 2026-11-21T18:43:26.714Z  INFO 1 --- [week11-order-service] [nio-8080-exec-3] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:43:26.714207110Z mode=retry orderId=d36ccf3d-1867-41db-974e-1e48c
+c1d9c64 attempt=2 delayMs=0 failRate=50
+order-service-1  | 2026-11-21T18:43:26.731Z  WARN 1 --- [week11-order-service] [nio-8080-exec-3] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_HTTP_ERROR at=2026-11-21T18:43:26.731833615Z mode=retry orderId=d36ccf3d-1867-41db-974e-1e
+48cc1d9c64 attempt=2 status=503
+order-service-1  | 2026-11-21T18:43:27.733Z  INFO 1 --- [week11-order-service] [nio-8080-exec-3] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:43:27.733851094Z mode=retry orderId=d36ccf3d-1867-41db-974e-1e48c
+c1d9c64 attempt=3 delayMs=0 failRate=50
+order-service-1  | 2026-11-21T18:43:27.766Z  WARN 1 --- [week11-order-service] [nio-8080-exec-3] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_HTTP_ERROR at=2026-11-21T18:43:27.766138083Z mode=retry orderId=d36ccf3d-1867-41db-974e-1e
+48cc1d9c64 attempt=3 status=503
+order-service-1  | 2026-11-21T18:43:27.783Z  INFO 1 --- [week11-order-service] [nio-8080-exec-4] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:43:27.783494357Z mode=retry orderId=5162d6e8-f4b3-4281-b5a3-60571
+fed5609 attempt=1 delayMs=0 failRate=50
+order-service-1  | 2026-11-21T18:43:27.839Z  INFO 1 --- [week11-order-service] [nio-8080-exec-5] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:43:27.839246185Z mode=retry orderId=690abde3-7ef4-489c-8263-567e0
+92a487d attempt=1 delayMs=0 failRate=50
+order-service-1  | 2026-11-21T18:43:27.849Z  WARN 1 --- [week11-order-service] [nio-8080-exec-5] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_HTTP_ERROR at=2026-11-21T18:43:27.849496588Z mode=retry orderId=690abde3-7ef4-489c-8263-56
+7e092a487d attempt=1 status=503
+order-service-1  | 2026-11-21T18:43:28.350Z  INFO 1 --- [week11-order-service] [nio-8080-exec-5] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:43:28.350539289Z mode=retry orderId=690abde3-7ef4-489c-8263-567e0
+92a487d attempt=2 delayMs=0 failRate=50
+order-service-1  | 2026-11-21T18:43:28.384Z  INFO 1 --- [week11-order-service] [nio-8080-exec-6] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:43:28.384652385Z mode=retry orderId=f942fec4-82db-401f-8be7-15523
+722699f attempt=1 delayMs=0 failRate=50
+order-service-1  | 2026-11-21T18:43:28.419Z  INFO 1 --- [week11-order-service] [nio-8080-exec-7] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:43:28.419669331Z mode=retry orderId=24895b6f-eac2-4816-9179-6fba3
+d4e56d4 attempt=1 delayMs=0 failRate=50
+order-service-1  | 2026-11-21T18:43:28.453Z  INFO 1 --- [week11-order-service] [nio-8080-exec-9] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:43:28.453888666Z mode=retry orderId=99ee2fcf-cd71-4f79-bd61-cc9c7
+579ddf2 attempt=1 delayMs=0 failRate=50
+order-service-1  | 2026-11-21T18:43:28.487Z  INFO 1 --- [week11-order-service] [nio-8080-exec-8] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:43:28.487896003Z mode=retry orderId=ef933e60-a5f4-4d52-8184-3a2ef
+b37c981 attempt=1 delayMs=0 failRate=50
+order-service-1  | 2026-11-21T18:43:28.499Z  WARN 1 --- [week11-order-service] [nio-8080-exec-8] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_HTTP_ERROR at=2026-11-21T18:43:28.499254273Z mode=retry orderId=ef933e60-a5f4-4d52-8184-3a
+2efb37c981 attempt=1 status=503
+order-service-1  | 2026-11-21T18:43:29.000Z  INFO 1 --- [week11-order-service] [nio-8080-exec-8] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:43:29.000721451Z mode=retry orderId=ef933e60-a5f4-4d52-8184-3a2ef
+b37c981 attempt=2 delayMs=0 failRate=50
+order-service-1  | 2026-11-21T18:43:29.020Z  WARN 1 --- [week11-order-service] [nio-8080-exec-8] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_HTTP_ERROR at=2026-11-21T18:43:29.020374496Z mode=retry orderId=ef933e60-a5f4-4d52-8184-3a
+2efb37c981 attempt=2 status=503
+order-service-1  | 2026-11-21T18:43:30.021Z  INFO 1 --- [week11-order-service] [nio-8080-exec-8] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:43:30.021639393Z mode=retry orderId=ef933e60-a5f4-4d52-8184-3a2ef
+b37c981 attempt=3 delayMs=0 failRate=50
+order-service-1  | 2026-11-21T18:43:30.033Z  WARN 1 --- [week11-order-service] [nio-8080-exec-8] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_HTTP_ERROR at=2026-11-21T18:43:30.033367542Z mode=retry orderId=ef933e60-a5f4-4d52-8184-3a
+2efb37c981 attempt=3 status=503
+order-service-1  | 2026-11-21T18:43:30.043Z  INFO 1 --- [week11-order-service] [io-8080-exec-10] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:43:30.043911097Z mode=retry orderId=1d88e9e1-5db6-4fa6-bb98-f589b
+3000c25 attempt=1 delayMs=0 failRate=50
+order-service-1  | 2026-11-21T18:43:30.055Z  WARN 1 --- [week11-order-service] [io-8080-exec-10] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_HTTP_ERROR at=2026-11-21T18:43:30.055938816Z mode=retry orderId=1d88e9e1-5db6-4fa6-bb98-f5
+89b3000c25 attempt=1 status=503
+order-service-1  | 2026-11-21T18:43:30.557Z  INFO 1 --- [week11-order-service] [io-8080-exec-10] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:43:30.557027328Z mode=retry orderId=1d88e9e1-5db6-4fa6-bb98-f589b
+3000c25 attempt=2 delayMs=0 failRate=50
+order-service-1  | 2026-11-21T18:43:30.597Z  INFO 1 --- [week11-order-service] [nio-8080-exec-1] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:43:30.597058975Z mode=retry orderId=0fff8e03-8820-4150-9ab1-e4f41
+6275464 attempt=1 delayMs=0 failRate=50
+order-service-1  | 2026-11-21T18:43:30.611Z  WARN 1 --- [week11-order-service] [nio-8080-exec-1] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_HTTP_ERROR at=2026-11-21T18:43:30.611241022Z mode=retry orderId=0fff8e03-8820-4150-9ab1-e4
+f416275464 attempt=1 status=503
+order-service-1  | 2026-11-21T18:43:31.113Z  INFO 1 --- [week11-order-service] [nio-8080-exec-1] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:43:31.112958302Z mode=retry orderId=0fff8e03-8820-4150-9ab1-e4f41
+6275464 attempt=2 delayMs=0 failRate=50
+order-service-1  | 2026-11-21T18:43:31.155Z  INFO 1 --- [week11-order-service] [nio-8080-exec-2] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:43:31.155537546Z mode=retry orderId=09e7d17f-cdcc-4e36-a9a7-5b0e6
+cd7db9e attempt=1 delayMs=0 failRate=50
+order-service-1  | 2026-11-21T18:43:31.166Z  WARN 1 --- [week11-order-service] [nio-8080-exec-2] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_HTTP_ERROR at=2026-11-21T18:43:31.166161304Z mode=retry orderId=09e7d17f-cdcc-4e36-a9a7-5b
+0e6cd7db9e attempt=1 status=503
+order-service-1  | 2026-11-21T18:43:31.667Z  INFO 1 --- [week11-order-service] [nio-8080-exec-2] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:43:31.667440272Z mode=retry orderId=09e7d17f-cdcc-4e36-a9a7-5b0e6
+cd7db9e attempt=2 delayMs=0 failRate=50
+order-service-1  | 2026-11-21T18:43:31.706Z  INFO 1 --- [week11-order-service] [nio-8080-exec-3] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:43:31.706723029Z mode=retry orderId=25bc580b-19cd-4dbf-a994-4d50a
+0ae72ea attempt=1 delayMs=0 failRate=50
+order-service-1  | 2026-11-21T18:43:31.717Z  WARN 1 --- [week11-order-service] [nio-8080-exec-3] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_HTTP_ERROR at=2026-11-21T18:43:31.717170355Z mode=retry orderId=25bc580b-19cd-4dbf-a994-4d
+50a0ae72ea attempt=1 status=503
+order-service-1  | 2026-11-21T18:43:32.218Z  INFO 1 --- [week11-order-service] [nio-8080-exec-3] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:43:32.218151665Z mode=retry orderId=25bc580b-19cd-4dbf-a994-4d50a
+0ae72ea attempt=2 delayMs=0 failRate=50
+order-service-1  | 2026-11-21T18:43:32.266Z  INFO 1 --- [week11-order-service] [nio-8080-exec-4] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:43:32.266158285Z mode=retry orderId=75abbfa5-5f8a-402c-853b-47fe4
+30d7021 attempt=1 delayMs=0 failRate=50
+order-service-1  | 2026-11-21T18:43:32.306Z  INFO 1 --- [week11-order-service] [nio-8080-exec-5] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:43:32.306624161Z mode=retry orderId=c5cc9d59-7e64-4828-b704-34243
+289c546 attempt=1 delayMs=0 failRate=50
+order-service-1  | 2026-11-21T18:43:32.319Z  WARN 1 --- [week11-order-service] [nio-8080-exec-5] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_HTTP_ERROR at=2026-11-21T18:43:32.319772407Z mode=retry orderId=c5cc9d59-7e64-4828-b704-34
+243289c546 attempt=1 status=503
+order-service-1  | 2026-11-21T18:43:32.821Z  INFO 1 --- [week11-order-service] [nio-8080-exec-5] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:43:32.821886148Z mode=retry orderId=c5cc9d59-7e64-4828-b704-34243
+289c546 attempt=2 delayMs=0 failRate=50
+order-service-1  | 2026-11-21T18:43:32.838Z  WARN 1 --- [week11-order-service] [nio-8080-exec-5] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_HTTP_ERROR at=2026-11-21T18:43:32.838034983Z mode=retry orderId=c5cc9d59-7e64-4828-b704-34
+243289c546 attempt=2 status=503
+order-service-1  | 2026-11-21T18:43:33.839Z  INFO 1 --- [week11-order-service] [nio-8080-exec-5] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:43:33.839452512Z mode=retry orderId=c5cc9d59-7e64-4828-b704-34243
+289c546 attempt=3 delayMs=0 failRate=50
+order-service-1  | 2026-11-21T18:43:33.877Z  INFO 1 --- [week11-order-service] [nio-8080-exec-6] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:43:33.877435003Z mode=retry orderId=eaa38b9e-3563-4baa-9a11-ef297
+0c06bf5 attempt=1 delayMs=0 failRate=50
+order-service-1  | 2026-11-21T18:43:33.918Z  INFO 1 --- [week11-order-service] [nio-8080-exec-7] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:43:33.917966305Z mode=retry orderId=f8438a5d-148e-48a4-85cd-2c71d
+49c46bc attempt=1 delayMs=0 failRate=101
+order-service-1  | 2026-11-21T18:43:33.932Z  WARN 1 --- [week11-order-service] [nio-8080-exec-7] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_HTTP_ERROR at=2026-11-21T18:43:33.932587529Z mode=retry orderId=f8438a5d-148e-48a4-85cd-2c
+71d49c46bc attempt=1 status=400
+order-service-1  | 2026-11-21T18:43:33.950Z  INFO 1 --- [week11-order-service] [nio-8080-exec-9] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:43:33.950199844Z mode=retry orderId=9f1964d7-e90a-4f81-87db-fcf87
+d225238 attempt=1 delayMs=3000 failRate=0
+order-service-1  | 2026-11-21T18:43:36.454Z  INFO 1 --- [week11-order-service] [nio-8080-exec-9] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:43:36.454854118Z mode=retry orderId=9f1964d7-e90a-4f81-87db-fcf87
+d225238 attempt=2 delayMs=3000 failRate=0
+order-service-1  | 2026-11-21T18:43:40.515Z  INFO 1 --- [week11-order-service] [nio-8080-exec-8] c.example.order.paymen
+t.PaymentGateway   : PAYMENT_ATTEMPT at=2026-11-21T18:43:40.515707155Z mode=retry orderId=9f1964d7-e90a-4f81-87db-fcf87
+d225238 attempt=3 delayMs=0 failRate=0
+payment-service-1  | 2026-11-21T18:43:22.449Z  INFO 1 --- [week12-payment-service] [io-8081-exec-10] com.example.paymen
+t.PaymentController    : PAYMENT_CREATED key=965c87fb-ec67-4406-93eb-838f6c9f6b2f paymentId=c7eb3605-4a10-4dd5-bf94-e47
+00ff5ad88
+payment-service-1  | 2026-11-21T18:43:22.457Z  INFO 1 --- [week12-payment-service] [io-8081-exec-10] com.example.paymen
+t.PaymentController    : PAYMENT_COMPLETED key=965c87fb-ec67-4406-93eb-838f6c9f6b2f paymentId=c7eb3605-4a10-4dd5-bf94-e
+4700ff5ad88
+payment-service-1  | 2026-11-21T18:43:24.039Z  INFO 1 --- [week12-payment-service] [nio-8081-exec-3] com.example.paymen
+t.PaymentController    : PAYMENT_CREATED key=f5e40b55-ee08-4def-8a28-c3c4c15ed0a7 paymentId=c0cf13a2-ef11-4c60-be96-57b
+64bdc00da
+payment-service-1  | 2026-11-21T18:43:24.047Z  INFO 1 --- [week12-payment-service] [nio-8081-exec-3] com.example.paymen
+t.PaymentController    : PAYMENT_COMPLETED key=f5e40b55-ee08-4def-8a28-c3c4c15ed0a7 paymentId=c0cf13a2-ef11-4c60-be96-5
+7b64bdc00da
+payment-service-1  | 2026-11-21T18:43:26.163Z  INFO 1 --- [week12-payment-service] [nio-8081-exec-9] com.example.paymen
+t.PaymentController    : PAYMENT_CREATED key=b23922c2-923e-4832-91ec-4dd9204b3ab2 paymentId=2557a592-2aec-4906-ab75-1ab
+56626256c
+payment-service-1  | 2026-11-21T18:43:26.173Z  INFO 1 --- [week12-payment-service] [nio-8081-exec-9] com.example.paymen
+t.PaymentController    : PAYMENT_COMPLETED key=b23922c2-923e-4832-91ec-4dd9204b3ab2 paymentId=2557a592-2aec-4906-ab75-1
+ab56626256c
+payment-service-1  | 2026-11-21T18:43:27.810Z  INFO 1 --- [week12-payment-service] [nio-8081-exec-3] com.example.paymen
+t.PaymentController    : PAYMENT_CREATED key=5162d6e8-f4b3-4281-b5a3-60571fed5609 paymentId=2ef47c0e-34e5-491e-b9b1-850
+75f26fd7a
+payment-service-1  | 2026-11-21T18:43:27.821Z  INFO 1 --- [week12-payment-service] [nio-8081-exec-3] com.example.paymen
+t.PaymentController    : PAYMENT_COMPLETED key=5162d6e8-f4b3-4281-b5a3-60571fed5609 paymentId=2ef47c0e-34e5-491e-b9b1-8
+5075f26fd7a
+payment-service-1  | 2026-11-21T18:43:28.364Z  INFO 1 --- [week12-payment-service] [nio-8081-exec-5] com.example.paymen
+t.PaymentController    : PAYMENT_CREATED key=690abde3-7ef4-489c-8263-567e092a487d paymentId=f1e1d8ac-dcdd-444b-9c0c-2e7
+0a41e1565
+payment-service-1  | 2026-11-21T18:43:28.372Z  INFO 1 --- [week12-payment-service] [nio-8081-exec-5] com.example.paymen
+t.PaymentController    : PAYMENT_COMPLETED key=690abde3-7ef4-489c-8263-567e092a487d paymentId=f1e1d8ac-dcdd-444b-9c0c-2
+e70a41e1565
+payment-service-1  | 2026-11-21T18:43:28.399Z  INFO 1 --- [week12-payment-service] [nio-8081-exec-7] com.example.paymen
+t.PaymentController    : PAYMENT_CREATED key=f942fec4-82db-401f-8be7-15523722699f paymentId=5441b8bc-706e-4392-85c3-e29
+abedb559b
+payment-service-1  | 2026-11-21T18:43:28.406Z  INFO 1 --- [week12-payment-service] [nio-8081-exec-7] com.example.paymen
+t.PaymentController    : PAYMENT_COMPLETED key=f942fec4-82db-401f-8be7-15523722699f paymentId=5441b8bc-706e-4392-85c3-e
+29abedb559b
+payment-service-1  | 2026-11-21T18:43:28.433Z  INFO 1 --- [week12-payment-service] [nio-8081-exec-8] com.example.paymen
+t.PaymentController    : PAYMENT_CREATED key=24895b6f-eac2-4816-9179-6fba3d4e56d4 paymentId=faea2de9-1340-43f3-8756-4ad
+7821fdfb6
+payment-service-1  | 2026-11-21T18:43:28.440Z  INFO 1 --- [week12-payment-service] [nio-8081-exec-8] com.example.paymen
+t.PaymentController    : PAYMENT_COMPLETED key=24895b6f-eac2-4816-9179-6fba3d4e56d4 paymentId=faea2de9-1340-43f3-8756-4
+ad7821fdfb6
+payment-service-1  | 2026-11-21T18:43:28.467Z  INFO 1 --- [week12-payment-service] [nio-8081-exec-9] com.example.paymen
+t.PaymentController    : PAYMENT_CREATED key=99ee2fcf-cd71-4f79-bd61-cc9c7579ddf2 paymentId=c3df5118-00c3-4b06-bd95-2a2
+b41e81b0a
+payment-service-1  | 2026-11-21T18:43:28.473Z  INFO 1 --- [week12-payment-service] [nio-8081-exec-9] com.example.paymen
+t.PaymentController    : PAYMENT_COMPLETED key=99ee2fcf-cd71-4f79-bd61-cc9c7579ddf2 paymentId=c3df5118-00c3-4b06-bd95-2
+a2b41e81b0a
+payment-service-1  | 2026-11-21T18:43:29.630Z  INFO 1 --- [week12-payment-service] [nio-8081-exec-6] com.example.paymen
+t.PaymentController    : PAYMENT_COMPLETED key=c52dc5ec-827b-4c06-a3be-9851461eca1b paymentId=8c81f29f-0654-421e-aca4-c
+d9293af2016
+payment-service-1  | 2026-11-21T18:43:30.573Z  INFO 1 --- [week12-payment-service] [nio-8081-exec-4] com.example.paymen
+t.PaymentController    : PAYMENT_CREATED key=1d88e9e1-5db6-4fa6-bb98-f589b3000c25 paymentId=8128d25d-a125-45c6-a4a2-690
+dd3454c41
+payment-service-1  | 2026-11-21T18:43:30.580Z  INFO 1 --- [week12-payment-service] [nio-8081-exec-4] com.example.paymen
+t.PaymentController    : PAYMENT_COMPLETED key=1d88e9e1-5db6-4fa6-bb98-f589b3000c25 paymentId=8128d25d-a125-45c6-a4a2-6
+90dd3454c41
+payment-service-1  | 2026-11-21T18:43:31.129Z  INFO 1 --- [week12-payment-service] [nio-8081-exec-7] com.example.paymen
+t.PaymentController    : PAYMENT_CREATED key=0fff8e03-8820-4150-9ab1-e4f416275464 paymentId=3aaaf23d-1d5e-4118-b96f-4ef
+dae1c73e4
+payment-service-1  | 2026-11-21T18:43:31.136Z  INFO 1 --- [week12-payment-service] [nio-8081-exec-7] com.example.paymen
+t.PaymentController    : PAYMENT_COMPLETED key=0fff8e03-8820-4150-9ab1-e4f416275464 paymentId=3aaaf23d-1d5e-4118-b96f-4
+efdae1c73e4
+payment-service-1  | 2026-11-21T18:43:31.683Z  INFO 1 --- [week12-payment-service] [nio-8081-exec-9] com.example.paymen
+t.PaymentController    : PAYMENT_CREATED key=09e7d17f-cdcc-4e36-a9a7-5b0e6cd7db9e paymentId=6b0ec101-7f33-4d2d-ac14-c3e
+42265937f
+payment-service-1  | 2026-11-21T18:43:31.691Z  INFO 1 --- [week12-payment-service] [nio-8081-exec-9] com.example.paymen
+t.PaymentController    : PAYMENT_COMPLETED key=09e7d17f-cdcc-4e36-a9a7-5b0e6cd7db9e paymentId=6b0ec101-7f33-4d2d-ac14-c
+3e42265937f
+payment-service-1  | 2026-11-21T18:43:32.238Z  INFO 1 --- [week12-payment-service] [nio-8081-exec-1] com.example.paymen
+t.PaymentController    : PAYMENT_CREATED key=25bc580b-19cd-4dbf-a994-4d50a0ae72ea paymentId=e86a2dd6-60ca-46f9-8167-3ae
+466238bbf
+payment-service-1  | 2026-11-21T18:43:32.248Z  INFO 1 --- [week12-payment-service] [nio-8081-exec-1] com.example.paymen
+t.PaymentController    : PAYMENT_COMPLETED key=25bc580b-19cd-4dbf-a994-4d50a0ae72ea paymentId=e86a2dd6-60ca-46f9-8167-3
+ae466238bbf
+payment-service-1  | 2026-11-21T18:43:32.283Z  INFO 1 --- [week12-payment-service] [nio-8081-exec-6] com.example.paymen
+t.PaymentController    : PAYMENT_CREATED key=75abbfa5-5f8a-402c-853b-47fe430d7021 paymentId=23c80bb0-69fc-46bf-ae68-4a9
+e9483cbf3
+payment-service-1  | 2026-11-21T18:43:32.291Z  INFO 1 --- [week12-payment-service] [nio-8081-exec-6] com.example.paymen
+t.PaymentController    : PAYMENT_COMPLETED key=75abbfa5-5f8a-402c-853b-47fe430d7021 paymentId=23c80bb0-69fc-46bf-ae68-4
+a9e9483cbf3
+payment-service-1  | 2026-11-21T18:43:33.854Z  INFO 1 --- [week12-payment-service] [nio-8081-exec-4] com.example.paymen
+t.PaymentController    : PAYMENT_CREATED key=c5cc9d59-7e64-4828-b704-34243289c546 paymentId=03677ae7-bb03-4105-895a-7fb
+786ab07a0
+payment-service-1  | 2026-11-21T18:43:33.862Z  INFO 1 --- [week12-payment-service] [nio-8081-exec-4] com.example.paymen
+t.PaymentController    : PAYMENT_COMPLETED key=c5cc9d59-7e64-4828-b704-34243289c546 paymentId=03677ae7-bb03-4105-895a-7
+fb786ab07a0
+payment-service-1  | 2026-11-21T18:43:33.893Z  INFO 1 --- [week12-payment-service] [nio-8081-exec-5] com.example.paymen
+t.PaymentController    : PAYMENT_CREATED key=eaa38b9e-3563-4baa-9a11-ef2970c06bf5 paymentId=13a7c969-a055-4047-9cd2-8b9
+263f5059f
+payment-service-1  | 2026-11-21T18:43:33.900Z  INFO 1 --- [week12-payment-service] [nio-8081-exec-5] com.example.paymen
+t.PaymentController    : PAYMENT_COMPLETED key=eaa38b9e-3563-4baa-9a11-ef2970c06bf5 paymentId=13a7c969-a055-4047-9cd2-8
+b9263f5059f
+payment-service-1  | 2026-11-21T18:43:33.965Z  INFO 1 --- [week12-payment-service] [nio-8081-exec-8] com.example.paymen
+t.PaymentController    : PAYMENT_CREATED key=9f1964d7-e90a-4f81-87db-fcf87d225238 paymentId=5f9ad58a-3b8e-4097-a9fc-453
+9913961dc
+payment-service-1  | 2026-11-21T18:43:36.483Z  INFO 1 --- [week12-payment-service] [nio-8081-exec-9] com.example.paymen
+t.PaymentController    : PAYMENT_REUSED key=9f1964d7-e90a-4f81-87db-fcf87d225238 status=PROCESSING paymentId=5f9ad58a-3
+b8e-4097-a9fc-4539913961dc
+payment-service-1  | 2026-11-21T18:43:36.974Z  INFO 1 --- [week12-payment-service] [nio-8081-exec-8] com.example.paymen
+t.PaymentController    : PAYMENT_COMPLETED key=9f1964d7-e90a-4f81-87db-fcf87d225238 paymentId=5f9ad58a-3b8e-4097-a9fc-4
+539913961dc
+payment-service-1  | 2026-11-21T18:43:40.528Z  INFO 1 --- [week12-payment-service] [io-8081-exec-10] com.example.paymen
+t.PaymentController    : PAYMENT_REUSED key=9f1964d7-e90a-4f81-87db-fcf87d225238 status=COMPLETED paymentId=5f9ad58a-3b
+8e-4097-a9fc-4539913961dc
+
+
+PS D:\dev\microservices-lab\week11-12-lab>

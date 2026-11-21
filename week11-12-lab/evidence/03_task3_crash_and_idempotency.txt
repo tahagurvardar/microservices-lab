@@ -1,0 +1,152 @@
+Windows PowerShell 5.1
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+PS C:\Users\tahag> cd D:\dev\microservices-lab
+PS D:\dev\microservices-lab>
+PS D:\dev\microservices-lab> Expand-Archive `
+>>   -LiteralPath "$HOME\Downloads\week11-12-task3-hotfix.zip" `
+>>   -DestinationPath 'D:\dev\microservices-lab' `
+>>   -Force
+PS D:\dev\microservices-lab> cd D:\dev\microservices-lab\week11-12-lab
+PS D:\dev\microservices-lab\week11-12-lab>
+PS D:\dev\microservices-lab\week11-12-lab> docker compose up -d --build order-service
+[+] Building 42.5s (27/27) FINISHED
+ => [internal] load local bake definitions                                                                                                 0.0s
+ => => reading from stdin 1.14kB                                                                                                           0.0s
+ => [payment-service internal] load build definition from Dockerfile                                                                       0.2s
+ => => transferring dockerfile: 346B                                                                                                       0.0s
+ => [order-service internal] load build definition from Dockerfile                                                                         0.1s
+ => => transferring dockerfile: 346B                                                                                                       0.0s
+ => [payment-service internal] load metadata for docker.io/library/eclipse-temurin:21-jre                                                  3.3s
+ => [payment-service internal] load metadata for docker.io/library/maven:3.9-eclipse-temurin-21                                            3.3s
+ => [order-service internal] load .dockerignore                                                                                            0.1s
+ => => transferring context: 64B                                                                                                           0.0s
+ => [payment-service internal] load .dockerignore                                                                                          0.1s
+ => => transferring context: 64B                                                                                                           0.0s
+ => [order-service build 1/6] FROM docker.io/library/maven:3.9-eclipse-temurin-21@sha256:99e61abcff91a9b1333463bd8451fb18495d6eba9250ac66  0.1s
+ => => resolve docker.io/library/maven:3.9-eclipse-temurin-21@sha256:99e61abcff91a9b1333463bd8451fb18495d6eba9250ac66a338b518f8278320      0.1s
+ => [payment-service stage-1 1/3] FROM docker.io/library/eclipse-temurin:21-jre@sha256:d77e090ae1f6970c047b443c6f0a6c1358b0426d44432bb5a7  0.1s
+ => => resolve docker.io/library/eclipse-temurin:21-jre@sha256:d77e090ae1f6970c047b443c6f0a6c1358b0426d44432bb5a7753408cd43de0d            0.1s
+ => [payment-service internal] load build context                                                                                          0.1s
+ => => transferring context: 825B                                                                                                          0.0s
+ => [order-service internal] load build context                                                                                            0.1s
+ => => transferring context: 8.85kB                                                                                                        0.0s
+ => CACHED [order-service stage-1 2/3] WORKDIR /app                                                                                        0.0s
+ => CACHED [order-service build 2/6] WORKDIR /build                                                                                        0.0s
+ => CACHED [payment-service build 3/6] COPY pom.xml .                                                                                      0.0s
+ => CACHED [payment-service build 4/6] RUN mvn -B -q dependency:go-offline                                                                 0.0s
+ => CACHED [payment-service build 5/6] COPY src ./src                                                                                      0.0s
+ => CACHED [payment-service build 6/6] RUN mvn -B -q -DskipTests package                                                                   0.0s
+ => CACHED [payment-service stage-1 3/3] COPY --from=build /build/target/*.jar app.jar                                                     0.0s
+ => CACHED [order-service build 3/6] COPY pom.xml .                                                                                        0.0s
+ => CACHED [order-service build 4/6] RUN mvn -B -q dependency:go-offline                                                                   0.0s
+ => [order-service build 5/6] COPY src ./src                                                                                               0.4s
+ => [payment-service] exporting to image                                                                                                   0.7s
+ => => exporting layers                                                                                                                    0.0s
+ => => exporting manifest sha256:40de99ae47dd15291d8bdb2eeff4af4d845fffe29017962c10dbc209671a1521                                          0.0s
+ => => exporting config sha256:9b123a976da449d4fd8e97a04afd393cc785798c6a827463f1731365074ac4f2                                            0.0s
+ => => exporting attestation manifest sha256:08fff12f3e0c777e0dd838f4bbb8388fa70ddf5af6245ef865619208f8556592                              0.1s
+ => => exporting manifest list sha256:2cf80f6b9d02c3484610691550d6ec75737c7ca436df25b3c5e0d4262f210312                                     0.1s
+ => => naming to docker.io/library/week11-12-lab-payment-service:latest                                                                    0.0s
+ => => unpacking to docker.io/library/week11-12-lab-payment-service:latest                                                                 0.1s
+ => [order-service build 6/6] RUN mvn -B -q -DskipTests package                                                                           27.1s
+ => [payment-service] resolving provenance for metadata file                                                                               0.1s
+ => [order-service stage-1 3/3] COPY --from=build /build/target/*.jar app.jar                                                              0.6s
+ => [order-service] exporting to image                                                                                                     5.0s
+ => => exporting layers                                                                                                                    3.6s
+ => => exporting manifest sha256:82897e38d9ba0542eeb68993fe5e8676f379e2c84fa5cc2db496c25cab0d7755                                          0.1s
+ => => exporting config sha256:3ace6cecc87f906bb436bd5d92cd4394c1c050835cb74e28c5c2fb0c468a1b08                                            0.1s
+ => => exporting attestation manifest sha256:4a0b7a5ff7780729232d940fc29877a93147b1af4f8d51136615037f625a6b93                              0.1s
+ => => exporting manifest list sha256:2a08e92dedb20a518ac866be7580ff71ea9966e6b7e6277356f8ca1718fcb000                                     0.1s
+ => => naming to docker.io/library/week11-12-lab-order-service:latest                                                                      0.0s
+ => => unpacking to docker.io/library/week11-12-lab-order-service:latest                                                                   0.8s
+ => [order-service] resolving provenance for metadata file                                                                                 0.1s
+[+] up 6/6
+ ✔ Image week11-12-lab-payment-service       Built                                                                                         42.8s
+ ✔ Image week11-12-lab-order-service         Built                                                                                         42.9s
+ ✔ Container week11-12-lab-kafka-1           Healthy                                                                                        5.3s
+ ✔ Container week11-12-lab-postgres-1        Healthy                                                                                        5.3s
+ ✔ Container week11-12-lab-payment-service-1 Running                                                                                        0.0s
+ ✔ Container week11-12-lab-order-service-1   Started                                                                                        5.9s
+PS D:\dev\microservices-lab\week11-12-lab> .\scripts\task3-crash.ps1
+Task3 will intentionally HALT the lab order-service twice. Type YES to continue: YES
+
+--- Task3 raw: eventId=199a07b8-f045-47a3-9fa4-3a2f8d8c214d ---
+Published crash-armed Kafka event 199a07b8-f045-47a3-9fa4-3a2f8d8c214d. Waiting for actual container exit...
+NAME                            IMAGE                         COMMAND                  SERVICE         CREATED          STATUS                              PORTS
+week11-12-lab-order-service-1   week11-12-lab-order-service   "java -jar /app/app.…"   order-service   23 seconds ago   Exited (1) Less than a second ago
+Verified: order-service EXITED after DB commit, before Kafka ack (raw).
+Starting only the intentionally halted lab order-service...
+[+] start 3/3
+ ✔ Container week11-12-lab-postgres-1      Healthy                                                                                          1.0s
+ ✔ Container week11-12-lab-kafka-1         Healthy                                                                                          0.5s
+ ✔ Container week11-12-lab-order-service-1 Started                                                                                          0.7s
+Database result for raw :
+
+
+rawRows            : 2
+processedEventRows : 0
+safeRows           : 0
+eventId            : 199a07b8-f045-47a3-9fa4-3a2f8d8c214d
+
+
+
+Proof logs:
+
+order-service-1  | 2026-11-21T16:49:05.052Z  INFO 1 --- [week11-order-service] [ntainer#1-0-C-1] c.e.order.kafka.OrderKafkaListener       : CRA
+SH_EVENT_RECEIVED mode=raw eventId=199a07b8-f045-47a3-9fa4-3a2f8d8c214d partition=0 offset=1 armed=true
+order-service-1  | 2026-11-21T16:49:06.392Z  INFO 1 --- [week11-order-service] [ntainer#1-0-C-1] c.e.order.kafka.OrderKafkaListener       : CRA
+SH_EVENT_PROCESSED mode=raw eventId=199a07b8-f045-47a3-9fa4-3a2f8d8c214d partition=0 offset=1 duplicate=false committedToDb=true
+order-service-1  | 2026-11-21T16:49:06.393Z ERROR 1 --- [week11-order-service] [ntainer#1-0-C-1] c.e.order.kafka.OrderKafkaListener       : LAB
+_INTENTIONAL_HALT mode=raw eventId=199a07b8-f045-47a3-9fa4-3a2f8d8c214d partition=0 offset=1 (DB COMMITTED, KAFKA NOT ACKED)
+order-service-1  | 2026-11-21T16:49:48.737Z  INFO 1 --- [week11-order-service] [ntainer#1-0-C-1] c.e.order.kafka.OrderKafkaListener       : CRA
+SH_EVENT_RECEIVED mode=raw eventId=199a07b8-f045-47a3-9fa4-3a2f8d8c214d partition=0 offset=1 armed=true
+order-service-1  | 2026-11-21T16:49:49.966Z  INFO 1 --- [week11-order-service] [ntainer#1-0-C-1] c.e.order.kafka.OrderKafkaListener       : CRA
+SH_EVENT_PROCESSED mode=raw eventId=199a07b8-f045-47a3-9fa4-3a2f8d8c214d partition=0 offset=1 duplicate=false committedToDb=true
+order-service-1  | 2026-11-21T16:49:49.967Z  INFO 1 --- [week11-order-service] [ntainer#1-0-C-1] c.e.order.kafka.OrderKafkaListener       : CRA
+SH_EVENT_ACK mode=raw eventId=199a07b8-f045-47a3-9fa4-3a2f8d8c214d partition=0 offset=1
+TASK3 PASS (raw): intentional exit + Kafka replay + expected DB row counts verified.
+
+--- Task3 safe: eventId=218b1e7e-c7e6-40a3-995f-afa890dbd277 ---
+Published crash-armed Kafka event 218b1e7e-c7e6-40a3-995f-afa890dbd277. Waiting for actual container exit...
+NAME                            IMAGE                         COMMAND                  SERVICE         CREATED              STATUS                              PORTS
+week11-12-lab-order-service-1   week11-12-lab-order-service   "java -jar /app/app.…"   order-service   About a minute ago   Exited (1) Less than a second ago
+Verified: order-service EXITED after DB commit, before Kafka ack (safe).
+Starting only the intentionally halted lab order-service...
+[+] start 3/3
+ ✔ Container week11-12-lab-postgres-1      Healthy                                                                                          1.0s
+ ✔ Container week11-12-lab-kafka-1         Healthy                                                                                          0.5s
+ ✔ Container week11-12-lab-order-service-1 Started                                                                                          0.4s
+Database result for safe :
+
+
+
+
+safeRows           : 1
+eventId            : 218b1e7e-c7e6-40a3-995f-afa890dbd277
+rawRows            : 0
+processedEventRows : 1
+
+
+
+Proof logs:
+
+order-service-1  | 2026-11-21T16:49:51.493Z  INFO 1 --- [week11-order-service] [ntainer#2-0-C-1] c.e.order.kafka.OrderKafkaListener       : CRA
+SH_EVENT_RECEIVED mode=safe eventId=218b1e7e-c7e6-40a3-995f-afa890dbd277 partition=0 offset=1 armed=true
+order-service-1  | 2026-11-21T16:49:52.705Z  INFO 1 --- [week11-order-service] [ntainer#2-0-C-1] c.e.order.kafka.OrderKafkaListener       : CRA
+SH_EVENT_PROCESSED mode=safe eventId=218b1e7e-c7e6-40a3-995f-afa890dbd277 partition=0 offset=1 duplicate=false committedToDb=true
+order-service-1  | 2026-11-21T16:49:52.706Z ERROR 1 --- [week11-order-service] [ntainer#2-0-C-1] c.e.order.kafka.OrderKafkaListener       : LAB
+_INTENTIONAL_HALT mode=safe eventId=218b1e7e-c7e6-40a3-995f-afa890dbd277 partition=0 offset=1 (DB COMMITTED, KAFKA NOT ACKED)
+order-service-1  | 2026-11-21T16:50:36.601Z  INFO 1 --- [week11-order-service] [ntainer#2-0-C-1] c.e.order.kafka.OrderKafkaListener       : CRA
+SH_EVENT_RECEIVED mode=safe eventId=218b1e7e-c7e6-40a3-995f-afa890dbd277 partition=0 offset=1 armed=true
+order-service-1  | 2026-11-21T16:50:37.819Z  INFO 1 --- [week11-order-service] [ntainer#2-0-C-1] c.e.order.kafka.OrderKafkaListener       : CRA
+SH_EVENT_PROCESSED mode=safe eventId=218b1e7e-c7e6-40a3-995f-afa890dbd277 partition=0 offset=1 duplicate=true committedToDb=true
+order-service-1  | 2026-11-21T16:50:37.822Z  INFO 1 --- [week11-order-service] [ntainer#2-0-C-1] c.e.order.kafka.OrderKafkaListener       : CRA
+SH_EVENT_ACK mode=safe eventId=218b1e7e-c7e6-40a3-995f-afa890dbd277 partition=0 offset=1
+TASK3 PASS (safe): intentional exit + Kafka replay + expected DB row counts verified.
+
+TASK3 PASS: RAW generated a duplicate; SAFE suppressed the duplicate.
+
+
+PS D:\dev\microservices-lab\week11-12-lab>
+PS D:\dev\microservices-lab\week11-12-lab>
